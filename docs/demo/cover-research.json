@@ -1,0 +1,153 @@
+{
+  "company": "Spotify",
+  "jobTitle": "Data Analyst, Podcasts",
+  "jd": "Spotify is looking for a Data Analyst to join the Podcasts insights team. You will use SQL and Python to analyse listening behaviour, build dashboards, design and evaluate A/B tests, and partner with product managers on new features for creators and listeners.",
+  "research": {
+    "method": "web",
+    "summary": "Spotify is a leading global audio streaming and media services provider offering music, podcasts, audiobooks, and creator tools to hundreds of millions of active users worldwide.",
+    "facts": [
+      {
+        "fact": "In November 2026, reports highlighted that content creators such as YouTubers are being paid to repost and expand video and audio content formats on Spotify.",
+        "relevance": "Directly touches on creator expansion and multi-format consumption tracking, which is critical for analyzing listening behavior on the Podcasts insights team.",
+        "angle": "Mention familiarity with analyzing engagement metrics for multi-format content and creator monetization loops.",
+        "date": "Nov 2026",
+        "sources": [
+          {
+            "title": "The Publish Press",
+            "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNeXMxSkI4d1NZTHU5emdFNk9wNmgyX1NFNnRyNXBhazZFUlFzaE1pTld5dXlldUFiNDRvZFpfSFVWeHpIT2hWSXM5TVZlX3lCT000RTJCSzljN3dPeDBvYkt5ekNpWmtXUjhPeElpa0RMb2JURTNqVnNvRWRiTWJFOWhkem1xT3J5?oc=5",
+            "domain": "news.google.com",
+            "kind": "news"
+          }
+        ],
+        "verified": true
+      },
+      {
+        "fact": "As of March 2026, Spotify reached over 788 million monthly active users, comprising 306 million paying subscribers globally.",
+        "relevance": "Highlights the massive scale of data throughput and audience segmentation that the Podcasts analytics team handles.",
+        "angle": "Connect your experience in processing large-scale user datasets and querying high-volume listening behavior via SQL and Python.",
+        "date": "Mar 2026",
+        "sources": [
+          {
+            "title": "Wikipedia: Spotify",
+            "url": "https://en.wikipedia.org/wiki/Spotify",
+            "domain": "en.wikipedia.org",
+            "kind": "wikipedia"
+          }
+        ],
+        "verified": true
+      },
+      {
+        "fact": "In November 2026, Spotify expanded its free AI audiobook creation tools to 21 more countries, adding Spanish-language support.",
+        "relevance": "Demonstrates Spotify's active push into creator-focused tooling and international market expansion.",
+        "angle": "Discuss experience building dashboards or evaluating product metrics for international creator tools.",
+        "date": "Nov 2026",
+        "sources": [
+          {
+            "title": "That Eric Alper",
+            "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxPMnNlaWtTX2FIVmNMcHlmMGx6XzZoRlZDRnFYVVJuTkhuRUtzV3c0Wkw2VWVaWkJMTWtodTlRdE9jRUo3bkljY29zUUwyX0xmR1Nua2pjTDBIZlJCZTlVRDFBYVRJc1JGX01vaDEtM1JqRXZoUHpWbXFBeWRmYk5xTm5MRmlvTUc0SDNfYVBxWU9Vd1RZdmFnbkFzd2NkQWNRV2VYNTNSb0txOXhVVGJValh0M2dBclNnUm96ODh2cVVTdTNvTDRsT1Rkb3ktR1BFMDExQm5pNEtBMV9vaE9DRXhKeS1KU0JnbHhPQnl2TQ?oc=5",
+            "domain": "news.google.com",
+            "kind": "news"
+          },
+          {
+            "title": "RouteNote",
+            "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOWnBSS2hLLWtSRm9oRzNqQk5kS1RtV0JwX0M5RVlYUEJGMkxVeENkZG9YdTdjRjdEOWpxcnBLU1lGa0JCSUgzNk5qRFR5cXdleHRyTzRGLVdWeTBaV3VacVM1NzA5ajNZZkQySU5RZFA4SEl6djRvbDVURHJHbnk3ejVYNGV6NWVYc2NMZUo0bVZIdlBmMDBtMzNsc09KREhmWjBGTklrYkh1ZlFpOV9uaHhxVWdCUXNGaGhTYnRETmtvSWJmQXp1OGZtN2RBMFBZWVVtdm1MLWw?oc=5",
+            "domain": "news.google.com",
+            "kind": "news"
+          }
+        ],
+        "verified": true
+      }
+    ],
+    "sources": [
+      {
+        "title": "Wikipedia: Spotify",
+        "url": "https://en.wikipedia.org/wiki/Spotify",
+        "domain": "en.wikipedia.org",
+        "kind": "wikipedia"
+      },
+      {
+        "title": "Spotify – Web Player",
+        "url": "https://open.spotify.com/",
+        "domain": "open.spotify.com",
+        "kind": "website"
+      },
+      {
+        "title": "That Eric Alper",
+        "url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxPMnNlaWtTX2FIVmNMcHlmMGx6XzZoRlZDRnFYVVJuTkhuRUtzV3c0Wkw2VWVaWkJMTWtodTlRdE9jRUo3bkljY29zUUwyX0xmR1Nua2pjTDBIZlJCZTlVRDFBYVRJc1JGX01vaDEtM1JqRXZoUHpWbXFBeWRmYk5xTm5MRmlvTUc0SDNfYVBxWU9Vd1RZdmFnbkFzd2NkQWNRV2VYNTNSb0txOXhVVGJValh0M2dBclNnUm96ODh2cVVTdTNvTDRsT1Rkb3ktR1BFMDExQm5pNEtBMV9vaE9DRXhKeS1KU0JnbHhPQnl2TQ?oc=5",
+        "domain": "news.google.com",
+        "kind": "news"
+      },
+      {
+        "title": "t2ONLINE",
+        "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNeGFFUzF1NzloS25POHVUbzR5U21jMzVHRlkzSjdxRkNiV3dfdF9rQ0NtdFkzMWoxaTEtQ090ZXRPVVNfRDFPemZxVlNQQVdBTFdkaWljeEZLaUFNT01OVElDLU82R2JiTDZCTTFIalpFQnNZSUJFVE9nZFo1WVg3b21MNDlLdHpxVkxTWDZGVEtOMGFkbXEyWS01emtHUnNHM2RsdWMxc2s?oc=5",
+        "domain": "news.google.com",
+        "kind": "news"
+      },
+      {
+        "title": "MediaBrief",
+        "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5GT1dWTVZEU0Z3Sy1xSmZTWTliUUJETXEtNG1EdTVzZFhsTW1RWkRHamR6M3dnRFRTYzBjU0tLajlUYnM2bXdWaW1UTFlsQWtXNFFyczNkQm9nYWNIVklaSXowOGg0d0ttR3Fwc3M0NA?oc=5",
+        "domain": "news.google.com",
+        "kind": "news"
+      },
+      {
+        "title": "Deccan Chronicle",
+        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPSUZKV0FOUmkwcFR2SzFTZEhhTGo5dndaYm01Wk90d1lzQnA0Q290UGk5WEE4dmt1RHFPdWI4TjdHMjZWN2paeTZncDlRdGY0ZUhFV3E4TTduUnI1WndJSFFsdUotVm5nWHpkMWJGSkptbTZvcXpTeUd5cTczNXB2bEc5cThzNXRyWkw5aWZXRXl5XzRFWFJr0gGcAUFVX3lxTE14am5ZdmVTeVcyejF2eFRIa0JaVFk2Z1ZmVTFRdzZFc015MkJrRWVxbWFZYmVIUXBSYjBVb2VQZEpxRzVDMVR4djFOdDAyRldCZjBoQW5HdTYyblJFamJnZmpHOUhQbXBWcjNIUkF6MlJqZ1ZoaU1uSXo1ZnRqLTZaOVdib0doaXVmYTF1VVUxZFFvemdqVXJlZXZzUg?oc=5",
+        "domain": "news.google.com",
+        "kind": "news"
+      },
+      {
+        "title": "That Eric Alper",
+        "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQOHpibVNDUjRVTnpkVE8wbGR3X2dNZzVvdnp2cGNpNHZMZHcwRUdoWkk4VjUxNm92OEd3YTA0UVlYS2QwZHVrVloyREM1LUFzLWdaSDlRejN0WW9hSGh1MUd3T19UZUozQUhZang0WTJieDlNVVNGU2MtZ1Z1WXFpMG5VLXhGaG1KQ2h2cG9LclJMb1lac1R0M21kVHQ2Z2xTNTJQX0dxZHJYS21OczdFSGhmVHpBZS0xQ3QtV29nZ3dWeHZ0TXJvSXdIOWdleE5QenhKZUloV20?oc=5",
+        "domain": "news.google.com",
+        "kind": "news"
+      },
+      {
+        "title": "RouteNote",
+        "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOWnBSS2hLLWtSRm9oRzNqQk5kS1RtV0JwX0M5RVlYUEJGMkxVeENkZG9YdTdjRjdEOWpxcnBLU1lGa0JCSUgzNk5qRFR5cXdleHRyTzRGLVdWeTBaV3VacVM1NzA5ajNZZkQySU5RZFA4SEl6djRvbDVURHJHbnk3ejVYNGV6NWVYc2NMZUo0bVZIdlBmMDBtMzNsc09KREhmWjBGTklrYkh1ZlFpOV9uaHhxVWdCUXNGaGhTYnRETmtvSWJmQXp1OGZtN2RBMFBZWVVtdm1MLWw?oc=5",
+        "domain": "news.google.com",
+        "kind": "news"
+      },
+      {
+        "title": "The Publish Press",
+        "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNeXMxSkI4d1NZTHU5emdFNk9wNmgyX1NFNnRyNXBhazZFUlFzaE1pTld5dXlldUFiNDRvZFpfSFVWeHpIT2hWSXM5TVZlX3lCT000RTJCSzljN3dPeDBvYkt5ekNpWmtXUjhPeElpa0RMb2JURTNqVnNvRWRiTWJFOWhkem1xT3J5?oc=5",
+        "domain": "news.google.com",
+        "kind": "news"
+      },
+      {
+        "title": "Album Talks",
+        "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNT1lURUdtUGNqVDQ5TGFpSjlwWS1UMUFub0kwZk5hS2NVN2h0UG0tbXBsZ1g2dGcyYVNHRlV1SkJ6cHU0MHhTVkwyY013djBjNTF3c1RjaC00QkhEU3M1ZmRPOHI0WG1MN2FnOWtNUmlDQlJkb3BLQlUwNkZVYVhxOW4zU3lDTkR3T1hxYTV6YWE?oc=5",
+        "domain": "news.google.com",
+        "kind": "news"
+      },
+      {
+        "title": "That Eric Alper",
+        "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPcGFGM3hROEFEZ3BBVkt0Y3p6enFXNkxTV3N0VEkteHA2U0JTWll0bjZsWURWNTV1d2NBQ2h1TUFzWHJ5VTlza3RkcTllYTBVTXRwbmpzWjNXbDZTb3ZOMVlxaWtEVlRXY2M5YjFVMmlsQWlPOEgtdi1QSld2bFB3UUZ4X01NLTBsVmdTYWVMMFZTWWNuRzV3cW9ZWGlRMm91eEliV0g3Q3FnbThFeXloSE1TczVoY3lhZVhuMTZiNEotRUN4NTB1aVlwMHhoZFN4LTBCR2F2TnE2U1MyRFVVbFZKdDk?oc=5",
+        "domain": "news.google.com",
+        "kind": "news"
+      },
+      {
+        "title": "The Metalverse",
+        "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE16dU5rSHE2OS1aSnBWdUt5VE5GUGlZZ2oxb2ZfRloxTU1SdlF5N2hOc0xLVnBMU3JTNmNhOXRiR0NRVWhESkdXYU1qRW83d044YmZHOERoTmFWN3RkaVBFX2tad3RvMGMyaVdlVktSdw?oc=5",
+        "domain": "news.google.com",
+        "kind": "news"
+      }
+    ],
+    "read": [
+      {
+        "kind": "wikipedia",
+        "count": 1
+      },
+      {
+        "kind": "website",
+        "count": 1
+      },
+      {
+        "kind": "news",
+        "count": 10
+      }
+    ],
+    "website": "https://www.spotify.com",
+    "note": "",
+    "model": "gemini-3.5-flash-lite"
+  }
+}

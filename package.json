@@ -1,7 +1,7 @@
 {
   "name": "selvedge",
   "productName": "Selvedge",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Résumé tailoring desktop app: ATS checks, shortlist confidence and job-tailored résumés, powered by the Google Gemini API.",
   "author": "iffayush (https://github.com/iffayush)",
   "license": "MIT",
@@ -32,6 +32,7 @@
     "icon": "node scripts/make-icon.mjs",
     "test": "node --test \"test/*.test.js\"",
     "demo:data": "node scripts/make-demo-data.mjs",
+    "demo:cover": "node scripts/make-cover-demo.mjs",
     "screenshots": "electron scripts/screenshots.mjs && node scripts/pdf-preview.mjs"
   },
   "engines": {

@@ -39,6 +39,9 @@
         <path d="M91 86c-7-3-13-1-16 4 7 3 13 1 16-4z" fill="url(#g-leaf)"/>
       </symbol>
       <symbol id="i-new" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 11v6M9 14h6"/></symbol>
+      <symbol id="i-letter" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.6 7 8.4 6.2L20.4 7"/></symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></symbol>
       <symbol id="i-history" viewBox="0 0 24 24"><path d="M4 7h16M4 7l1.2 11.2A2 2 0 0 0 7.2 20h9.6a2 2 0 0 0 2-1.8L20 7M9 4h6l1 3H8z"/><path d="M10 12h4"/></symbol>
       <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></symbol>
       <symbol id="i-quit" viewBox="0 0 24 24"><path d="M12 3v8"/><path d="M6.4 6.6a8 8 0 1 0 11.2 0"/></symbol>
@@ -65,6 +68,9 @@
       <nav class="nav" role="tablist" aria-label="Sections">
         <button class="tab nav-item" role="tab" data-view="tailor" aria-selected="true" title="New application">
           <svg class="icon" aria-hidden="true"><use href="#i-new"/></svg><span class="nav-label">New application</span>
+        </button>
+        <button class="tab nav-item" role="tab" data-view="cover" aria-selected="false" title="Cover letter">
+          <svg class="icon" aria-hidden="true"><use href="#i-letter"/></svg><span class="nav-label">Cover letter</span>
         </button>
         <button class="tab nav-item" role="tab" data-view="history" aria-selected="false" title="History">
           <svg class="icon" aria-hidden="true"><use href="#i-history"/></svg><span class="nav-label">History</span>
@@ -226,12 +232,192 @@
                   <button id="pdfBtn" class="btn">Download PDF</button>
                   <button id="recheckBtn" class="btn ghost">Re-check with AI</button>
                   <button id="openSavedBtn" class="btn ghost" hidden>Open folder</button>
+                  <button id="coverFromTailorBtn" class="btn ghost" hidden>Write a cover letter</button>
                 </div>
                 <div id="saveStatus" class="status small" aria-live="polite"></div>
               </div>
               <div class="card changes-card">
                 <h3>What changed, and why</h3>
                 <ul id="changesList" class="changes"></ul>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </section>
+
+      <!-- ========== COVER LETTER ========== -->
+      <section id="view-cover" class="view" hidden>
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Cover letter</p>
+            <h1>A cover letter, <em>in your voice</em>.</h1>
+            <p class="lede">Start from a saved application or a new job description. Answer a few questions, choose what you learned about the company, and Selvedge drafts the letter, then edits it until it reads like you wrote it.</p>
+          </div>
+          <button id="coverResetBtn" class="btn ghost">Start over</button>
+        </header>
+
+        <section class="card step-card">
+          <div class="step-head">
+            <span class="step-num" aria-hidden="true">01</span>
+            <div>
+              <h2>The role</h2>
+              <p class="step-sub">Reuse an application you've saved, or paste a new job description.</p>
+            </div>
+          </div>
+          <div class="choice" role="radiogroup" aria-label="Where the job description comes from" id="coverSourceChoice">
+            <button class="choice-opt" role="radio" data-source="saved" aria-checked="true">
+              <strong>From a saved application</strong>
+              <span>Uses its job description and tailored résumé</span>
+            </button>
+            <button class="choice-opt" role="radio" data-source="new" aria-checked="false">
+              <strong>New job description</strong>
+              <span>Paste one, and choose which résumé to use</span>
+            </button>
+          </div>
+
+          <div id="coverSavedPane" class="pane">
+            <label class="field">
+              <span>Application</span>
+              <select id="coverApp" aria-label="Saved application"></select>
+            </label>
+            <div id="coverAppInfo" class="app-info"></div>
+          </div>
+
+          <div id="coverNewPane" class="pane" hidden>
+            <div class="row-2">
+              <label class="field">
+                <span>Company <span class="opt">optional</span></span>
+                <input id="coverCompany" type="text" autocomplete="off" placeholder="Found from the description">
+              </label>
+              <label class="field">
+                <span>Job title <span class="opt">optional</span></span>
+                <input id="coverRole" type="text" autocomplete="off" placeholder="e.g. Product Designer">
+              </label>
+            </div>
+            <label class="field grow">
+              <span>Job description</span>
+              <textarea id="coverJd" rows="10" placeholder="Paste the full job description here"></textarea>
+            </label>
+            <div class="field">
+              <span>Résumé</span>
+              <div class="row-inline resume-src">
+                <select id="coverResumeSel" aria-label="Which résumé to use"></select>
+                <input id="coverFile" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
+              </div>
+              <span id="coverResumeNote" class="small muted"></span>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button id="coverPrepBtn" class="btn primary large"><span class="btn-label">Next: a few questions</span></button>
+            <div id="coverPrepStatus" class="status" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section id="coverPersonal" class="step-section" hidden>
+          <div class="step-head wide">
+            <span class="step-num" aria-hidden="true">02</span>
+            <div>
+              <h2>Make it yours</h2>
+              <p class="step-sub">Answer what you like and skip the rest. A sentence or two each is plenty; Selvedge keeps your wording.</p>
+            </div>
+          </div>
+          <div class="cover-grid">
+            <div class="card questions-card" id="coverQuestions"></div>
+            <aside class="card research-card">
+              <div id="coverResearch" class="research-body" aria-live="polite"></div>
+              <div class="research-foot">
+                <div class="field">
+                  <span>Company website <span class="opt">helps with smaller companies</span></span>
+                  <div class="row-inline">
+                    <input id="coverWebsite" type="text" autocomplete="off" placeholder="e.g. example.com" aria-label="Company website">
+                    <button id="coverResearchBtn" class="btn small"><svg class="icon sm" aria-hidden="true"><use href="#i-search"/></svg>Search again</button>
+                  </div>
+                </div>
+                <label class="field">
+                  <span>Anything you know about them yourself? <span class="opt">optional</span></span>
+                  <textarea id="coverNote" rows="3" placeholder="e.g. I've used their app for two years; a friend works on their data team"></textarea>
+                </label>
+              </div>
+            </aside>
+          </div>
+          <div class="card options-card">
+            <label class="field">
+              <span>Hiring manager <span class="opt">optional</span></span>
+              <input id="coverManager" type="text" autocomplete="off" placeholder="Their full name, if the posting gives it">
+            </label>
+            <div class="field">
+              <span>Tone</span>
+              <div class="choice compact" role="radiogroup" aria-label="Tone" id="coverTone">
+                <button class="choice-opt" role="radio" data-value="warm" aria-checked="true"><strong>Warm</strong></button>
+                <button class="choice-opt" role="radio" data-value="direct" aria-checked="false"><strong>Direct</strong></button>
+                <button class="choice-opt" role="radio" data-value="formal" aria-checked="false"><strong>Formal</strong></button>
+              </div>
+            </div>
+            <div class="field span-2">
+              <span>Format</span>
+              <div class="choice" role="radiogroup" aria-label="Format" id="coverFormat">
+                <button class="choice-opt" role="radio" data-value="paragraphs" aria-checked="true">
+                  <strong>Paragraphs</strong><span>Three or four short paragraphs. Reads most personal.</span>
+                </button>
+                <button class="choice-opt" role="radio" data-value="bullets" aria-checked="false">
+                  <strong>Paragraphs + bullets</strong><span>An opening, three bullet points of proof, a short close.</span>
+                </button>
+              </div>
+              <p id="coverFormatAdvice" class="advice"></p>
+            </div>
+          </div>
+          <div class="action-row">
+            <button id="coverWriteBtn" class="btn primary large"><span class="btn-label">Write my cover letter</span></button>
+            <div id="coverWriteStatus" class="status" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <section id="coverResult" class="step-section" hidden>
+          <header class="section-head">
+            <p class="eyebrow">Your letter</p>
+            <h2 class="h-display">Drafted, then <em>humanised</em>.</h2>
+            <p class="lede">Edit anything. The checks update as you type.</p>
+          </header>
+          <div id="coverFlags" class="banner bad" hidden></div>
+          <div class="tailored-layout">
+            <div class="card letter-card">
+              <textarea id="coverLetter" class="letter" spellcheck="true" aria-label="Cover letter"></textarea>
+              <p id="coverPageFit" class="small"></p>
+              <details class="advanced" id="coverDraftBox">
+                <summary>The first draft, before humanising</summary>
+                <pre id="coverDraft" class="draft"></pre>
+              </details>
+            </div>
+            <aside class="side">
+              <div class="card save-card">
+                <div id="coverHumanTile"></div>
+                <div id="coverSaveFields"></div>
+                <details class="advanced" id="coverHeaderBox">
+                  <summary>Letterhead</summary>
+                  <label class="field"><span>Your name</span><input id="coverName" type="text" autocomplete="off"></label>
+                  <label class="field"><span>Contact line <span class="opt">separate with |</span></span><input id="coverContact" type="text" autocomplete="off"></label>
+                </details>
+                <p class="muted small path" id="coverSavePreview"></p>
+                <div class="btn-col">
+                  <button id="coverSaveBtn" class="btn primary"><span class="btn-label">Save cover letter</span></button>
+                  <div class="btn-pair">
+                    <button id="coverPdfBtn" class="btn">Download PDF</button>
+                    <button id="coverCopyBtn" class="btn"><svg class="icon sm" aria-hidden="true"><use href="#i-copy"/></svg>Copy text</button>
+                  </div>
+                  <button id="coverHumanizeBtn" class="btn ghost"><span class="btn-label">Humanise again</span></button>
+                  <button id="coverOpenBtn" class="btn ghost" hidden>Open folder</button>
+                </div>
+                <div id="coverSaveStatus" class="status small" aria-live="polite"></div>
+              </div>
+              <div class="card">
+                <h3>Human check</h3>
+                <div id="coverChecks"></div>
+                <p class="fineprint">Five local checks modelled on what AI-text detectors look for. They aren't GPTZero or Turnitin, and no tool can promise those verdicts.</p>
+              </div>
+              <div class="card">
+                <h3>What the humaniser changed</h3>
+                <ul id="coverEdits" class="changes"></ul>
               </div>
             </aside>
           </div>

@@ -121,6 +121,25 @@ async function run() {
   });
   await shot('history', { height: 540, setup: `document.querySelector('.tab[data-view="history"]').click(); await new Promise(r => setTimeout(r, 800)); window.scrollTo(0, 0); return true;` });
 
+  // Cover letters (node scripts/make-cover-demo.mjs writes these states)
+  const coverFile = path.join(ROOT, 'docs', 'demo', 'cover.json');
+  if (fs.existsSync(coverFile)) {
+    const cover = JSON.parse(fs.readFileSync(coverFile, 'utf8'));
+    const openCover = async (state) => {
+      await js(`localStorage.setItem('selvedge-cover-v1', ${JSON.stringify(JSON.stringify(state))}); return true;`);
+      await win.loadURL(server.url);
+      await settle();
+      await js(`document.querySelector('.tab[data-view="cover"]').click(); await new Promise(r => setTimeout(r, 1000)); return true;`);
+    };
+    await openCover(cover);
+    await shot('cover-questions', { height: 1700, element: '#coverPersonal' });
+    await shot('cover-letter', { height: 1250, element: '#coverResult' });
+
+    const { company, jobTitle, research } = JSON.parse(fs.readFileSync(path.join(ROOT, 'docs', 'demo', 'cover-research.json'), 'utf8'));
+    await openCover({ ...cover, company, jobTitle, research, researchState: 'done', selected: [Math.max(0, research.facts.findIndex((f) => f.sources.some((s) => s.kind === 'news')))].slice(0, research.facts.length), website: '' });
+    await shot('cover-research', { height: 1400, element: '.research-card', pad: 20 });
+  }
+
   // First run: no API key anywhere.
   delete process.env.GEMINI_API_KEY;
   delete process.env.GOOGLE_API_KEY;

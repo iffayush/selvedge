@@ -1,0 +1,252 @@
+{
+  "source": "saved",
+  "appId": "THVtZW4gQW5hbHl0aWNzXFNlbmlvciBEYXRhIEFuYWx5c3QgKDIwMjYtMTEtMjQp",
+  "appInfo": {
+    "dir": "C:\\Users\\you\\Documents\\Selvedge\\Lumen Analytics\\Senior Data Analyst (2026-11-24)",
+    "company": "Lumen Analytics",
+    "jobTitle": "Senior Data Analyst",
+    "date": "2026-11-24",
+    "hasResume": true,
+    "coverLetter": null
+  },
+  "newJob": {
+    "company": "",
+    "jobTitle": "",
+    "jd": ""
+  },
+  "newResume": {
+    "from": "",
+    "text": "",
+    "label": ""
+  },
+  "company": "Lumen Analytics",
+  "jobTitle": "Senior Data Analyst",
+  "jd": "Senior Data Analyst — Lumen Analytics (Pune, hybrid)\n\nLumen Analytics helps mid-size retailers understand their customers. We're looking for a Senior Data Analyst to join our Insights team and own analyses from question to recommendation.\n\nWhat you'll do\n- Build and maintain dashboards in Power BI or Tableau that leadership uses every week\n- Write complex SQL against our Snowflake data warehouse\n- Design, run and analyse A/B tests with the product team\n- Build forecasting models in Python (pandas, scikit-learn)\n- Present findings and recommendations to non-technical stakeholders\n- Mentor two junior analysts\n\nWhat we're looking for (required)\n- 4+ years of experience in a data analyst or similar role\n- Bachelor's degree in Statistics, Mathematics, Computer Science or a related field\n- Expert SQL and strong Python\n- Experience with a BI tool (Power BI or Tableau)\n- Experience designing and analysing A/B tests\n\nNice to have\n- Snowflake or dbt experience\n- Retail or e-commerce domain knowledge\n- Airflow or another orchestration tool\n- Experience mentoring other analysts",
+  "resumeText": "Priya Sharma\nSenior Data Analyst | SQL, Python, Tableau\npriya.sharma@example.com | +91 98765 43210 | Pune, India | linkedin.com/in/priya-sharma-example\n\nSummary\nData analyst with 4 years of experience turning retail sales and operations data into actionable business insights. Proven track record of owning end-to-end analyses, from SQL extraction and A/B testing to Tableau dashboard creation and stakeholder presentations.\n\nSkills\nLanguages & Databases: SQL, Python, R, Snowflake\nTools & Technologies: Tableau, Excel, Airflow, Git\nMethods & Analysis: A/B testing, Regression analysis, Data cleaning, Statistics\n\nExperience\nData Analyst | Northwind Retail | Pune, India | Jan 2022 – Present\n• Built 12 Tableau dashboards used weekly by 40 regional managers to track retail sales performance against business targets.\n• Automated monthly revenue reporting workflows using Python and SQL, reducing preparation time from 3 days to 4 hours.\n• Designed and analysed A/B tests on checkout process modifications, resulting in a 6% conversion rate lift.\n• Collaborated with cross-functional finance and supply chain teams to define key performance indicators and deliver stakeholder presentations.\nJunior Analyst | Contoso Logistics | Mumbai, India | Jul 2020 – Dec 2021\n• Cleaned and merged shipment dataset across 5 warehouse systems into a unified central reporting table using SQL.\n• Created quantitative Excel models to forecast weekly delivery volumes for logistics operations.\n• Fulfilled 120 ad hoc data analysis requests for operations managers to support daily operational decisions.\n\nProjects\nCustomer churn model | Python | github.com/example/churn-model\n• Trained a logistic regression model on public telecom data, achieving an evaluation metric of 0.81 AUC.\n\nEducation\nB.Sc. Statistics | University of Pune | Pune, India | 2017 – 2020\n\nCertifications\n• Google Data Analytics Certificate\n\nLanguages\n• English (fluent)\n• Hindi (native)\n• Marathi (native)",
+  "header": {
+    "name": "Priya Sharma",
+    "contact": [
+      "priya.sharma@example.com",
+      "+91 98765 43210",
+      "Pune, India",
+      "linkedin.com/in/priya-sharma-example"
+    ]
+  },
+  "prep": {
+    "questions": [
+      {
+        "kind": "story",
+        "question": "Can you share the story behind your A/B test on checkout process modifications at Northwind Retail that lifted conversion by 6 percent?",
+        "why": "This grounds your analytics impact in a specific business win relevant to Lumen's retail focus.",
+        "placeholder": "e.g., At Northwind Retail, I noticed a massive drop-off at the final payment step, so I designed an A/B test simplifying the form fields that boosted conversions by 6%."
+      },
+      {
+        "kind": "motivation",
+        "question": "What specifically drew you to apply to Lumen Analytics and our focus on helping mid-size retailers understand their customers?",
+        "why": "This highlights your genuine alignment with their product mission.",
+        "placeholder": "e.g., I love how Lumen focuses on empowering mid-size retailers who usually lack enterprise-level analytics resources."
+      },
+      {
+        "kind": "analogy",
+        "question": "If your approach to untangling messy data warehouses like Snowflake or SQL tables was a hobby or craft, what would it be?",
+        "why": "This reveals your creative problem-solving style beyond standard resume bullet points.",
+        "placeholder": "e.g., It is like restoring vintage mechanical watches, where you methodically clean every gear until the whole movement ticks smoothly."
+      }
+    ],
+    "jdSkills": [
+      "Power BI",
+      "Tableau",
+      "SQL",
+      "Snowflake",
+      "A/B tests",
+      "Python",
+      "pandas",
+      "scikit-learn",
+      "stakeholder presentations",
+      "mentoring",
+      "dbt",
+      "Airflow",
+      "Retail domain knowledge",
+      "Statistics",
+      "Mathematics",
+      "Computer Science"
+    ],
+    "formatAdvice": {
+      "recommended": "bullets",
+      "reason": "The role lists concrete technical requirements like SQL, A/B testing, and Python, and your resume has strong measurable results that map directly onto them."
+    }
+  },
+  "answers": [
+    {
+      "question": "Can you share the story behind your A/B test on checkout process modifications at Northwind Retail that lifted conversion by 6 percent?",
+      "answer": "The test showed no lift for two weeks. I split the results by device and saw mobile users dropping at the address form, so we cut it to three fields. That is where the 6% came from."
+    },
+    {
+      "question": "What specifically drew you to apply to Lumen Analytics and our focus on helping mid-size retailers understand their customers?",
+      "answer": "My first job was helping in my uncle's shop. He never had time for reports, so tools that make data simple for small retailers matter to me."
+    },
+    {
+      "question": "If your approach to untangling messy data warehouses like Snowflake or SQL tables was a hobby or craft, what would it be?",
+      "answer": "I bake sourdough at weekends. You feed the starter a little at a time and watch it before you trust it, which is how I treat a new metric."
+    }
+  ],
+  "companyNote": "",
+  "website": "",
+  "hiringManager": "",
+  "tone": "warm",
+  "format": "bullets",
+  "formatChosen": false,
+  "research": {
+    "method": "none",
+    "summary": "",
+    "facts": [],
+    "sources": [],
+    "website": null,
+    "note": "Couldn't find public information about Lumen Analytics. Add their website below and search again, or tell Selvedge what you know about them."
+  },
+  "researchState": "done",
+  "researchError": "",
+  "selected": [],
+  "letter": "Dear Lumen Analytics hiring team,\n\nMy first job was helping in my uncle's shop. He never had time for reports, so tools that make data simple for small retailers matter to me. I've spent four years doing this work at Northwind Retail, and I want to bring that experience to your Insights team as a Senior Data Analyst.\n\n- Built 12 Tableau dashboards used weekly by 40 regional managers to track retail sales performance.\n- Designed and analysed A/B tests on checkout process modifications, splitting results by device to spot mobile drop-offs at the address form and cutting it down to three fields, resulting in a 6% conversion rate lift.\n- Automated monthly revenue reporting workflows using Python and SQL, reducing preparation time from 3 days to 4 hours.\n\nI bake sourdough at weekends. You feed the starter a little at a time and watch it before you trust it, which is how I treat a new metric. Let's talk about how I can help your team own analyses from question to recommendation.\n\nBest regards,\nPriya Sharma",
+  "draft": "Dear Lumen Analytics hiring team,\n\nMy first job was helping in my uncle's shop. He never had time for reports, so tools that make data simple for small retailers matter to me. I've spent four years doing this work at Northwind Retail, and I want to bring that experience to your Insights team as a Senior Data Analyst.\n\n- Built 12 Tableau dashboards used weekly by 40 regional managers to track retail sales performance against business targets.\n- Designed and analysed A/B tests on checkout process modifications, resulting in a 6% conversion rate lift.\n- Automated monthly revenue reporting workflows using Python and SQL, reducing preparation time from 3 days to 4 hours.\n\nI bake sourdough at weekends. You feed the starter a little at a time and watch it before you trust it, which is how I treat a new metric. Let's talk about how I can help your team own analyses from question to recommendation.\n\nBest regards,\nPriya Sharma",
+  "human": {
+    "score": 81,
+    "verdict": "pass",
+    "label": "Reads human",
+    "checks": [
+      {
+        "id": "burstiness",
+        "name": "Sentence rhythm",
+        "score": 67,
+        "detail": "Sentence-length variation 0.47 across 9 sentences (0.5 or more reads human)."
+      },
+      {
+        "id": "specificity",
+        "name": "Specific detail",
+        "score": 100,
+        "detail": "16 concrete names and numbers, 9.9 per 100 words (4 or more reads human)."
+      },
+      {
+        "id": "slop",
+        "name": "Stock phrases",
+        "score": 100,
+        "detail": "No stock words or phrases."
+      },
+      {
+        "id": "fingerprint",
+        "name": "Typography",
+        "score": 100,
+        "detail": "Plain keyboard typography."
+      },
+      {
+        "id": "voice",
+        "name": "Voice",
+        "score": 84,
+        "detail": "1.9 contractions and 7.4 personal pronouns per 100 words; 0 structural tells."
+      }
+    ],
+    "weakest": "burstiness",
+    "slop": [],
+    "tells": [],
+    "fingerprint": {
+      "invisible": 0,
+      "emDash": 0,
+      "enDash": 0,
+      "curly": 0,
+      "ellipsis": 0,
+      "hardSpace": 0
+    },
+    "burstiness": 0.5,
+    "contractions": 1.9,
+    "words": 162
+  },
+  "humanStart": {
+    "score": 67,
+    "verdict": "review",
+    "label": "Needs a pass",
+    "checks": [
+      {
+        "id": "burstiness",
+        "name": "Sentence rhythm",
+        "score": 42,
+        "detail": "Sentence-length variation 0.37 across 9 sentences (0.5 or more reads human)."
+      },
+      {
+        "id": "specificity",
+        "name": "Specific detail",
+        "score": 100,
+        "detail": "16 concrete names and numbers, 11.0 per 100 words (4 or more reads human)."
+      },
+      {
+        "id": "slop",
+        "name": "Stock phrases",
+        "score": 100,
+        "detail": "No stock words or phrases."
+      },
+      {
+        "id": "fingerprint",
+        "name": "Typography",
+        "score": 100,
+        "detail": "Plain keyboard typography."
+      },
+      {
+        "id": "voice",
+        "name": "Voice",
+        "score": 77,
+        "detail": "2.1 contractions and 8.3 personal pronouns per 100 words; 0 structural tells."
+      }
+    ],
+    "weakest": "burstiness",
+    "slop": [],
+    "tells": [
+      {
+        "id": "uniform-bullets",
+        "name": "Bullets all the same length",
+        "fix": "Vary them: one short, one longer.",
+        "count": 3,
+        "example": ""
+      }
+    ],
+    "fingerprint": {
+      "invisible": 0,
+      "emDash": 0,
+      "enDash": 0,
+      "curly": 0,
+      "ellipsis": 0,
+      "hardSpace": 0
+    },
+    "burstiness": 0.4,
+    "contractions": 2.1,
+    "words": 145
+  },
+  "passes": [
+    {
+      "before": 67,
+      "after": 81,
+      "accepted": true,
+      "rejected": "",
+      "edits": [
+        "varied bullet lengths",
+        "mixed sentence lengths",
+        "removed punctuation marks",
+        "cut filler words"
+      ]
+    }
+  ],
+  "scrubChanges": [],
+  "flags": {
+    "unconfirmed": [],
+    "changedNumbers": [],
+    "placeholders": []
+  },
+  "pdfInfo": {
+    "pages": 1,
+    "fits": true,
+    "fontSize": 11
+  },
+  "model": "gemini-3.5-flash-lite",
+  "savedDir": "C:\\Users\\you\\Documents\\Selvedge\\Lumen Analytics\\Senior Data Analyst (2026-11-24)",
+  "savedText": "",
+  "saveCompany": "",
+  "saveRole": ""
+}

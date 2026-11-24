@@ -50,6 +50,7 @@ function freshState() {
     pdfInfo: null,
     recheck: null,
     savedDir: null,
+    savedId: null,
     saveCompany: '',
     saveRole: '',
     stale: false,
@@ -136,10 +137,11 @@ function setStatus(sel, text, tone = '') {
 let busy = false;
 function setBusy(b) {
   busy = b;
-  for (const id of ['#analyzeBtn', '#tailorBtn', '#recheckBtn', '#testBtn']) {
+  for (const id of ['#analyzeBtn', '#tailorBtn', '#recheckBtn', '#testBtn', '#coverWriteBtn', '#coverHumanizeBtn']) {
     const el = $(id);
     if (el) el.disabled = b || (id === '#analyzeBtn' && !canAnalyze());
   }
+  updateCoverButtons();
 }
 
 /** Put a button into (or out of) its loading state: spinner inside, clicks ignored. */
@@ -193,8 +195,9 @@ async function runWithStatus(statusEl, label, fn, button) {
 
 // ---------- views ----------
 function showView(name) {
-  for (const v of ['tailor', 'history', 'settings']) $(`#view-${v}`).hidden = v !== name;
+  for (const v of ['tailor', 'cover', 'history', 'settings']) $(`#view-${v}`).hidden = v !== name;
   $$('.tab').forEach((t) => t.setAttribute('aria-selected', String(t.dataset.view === name)));
+  if (name === 'cover') loadCoverView();
   if (name === 'history') loadHistory();
   if (name === 'settings') loadSettings();
   window.scrollTo({ top: 0 });
@@ -960,6 +963,7 @@ function renderTailored() {
   $('#saveCompany').value = state.saveCompany || '';
   $('#saveRole').value = state.saveRole || '';
   $('#openSavedBtn').hidden = !state.savedDir;
+  $('#coverFromTailorBtn').hidden = !state.savedId;
   setStatus('#saveStatus', state.savedDir ? `Saved to ${state.savedDir}` : '', state.savedDir ? 'ok' : '');
   renderSavePreview();
   renderPlaceholderAlert();
@@ -1005,8 +1009,10 @@ async function save() {
       },
     });
     state.savedDir = r.dir;
+    state.savedId = r.id;
     persist();
     $('#openSavedBtn').hidden = false;
+    $('#coverFromTailorBtn').hidden = false;
     setStatus('#saveStatus', `Saved to ${r.dir}`, 'ok');
     toast('Application saved.', { action: { label: 'Open folder', fn: () => openFolder(r.dir) } });
   } catch (err) {
@@ -1064,6 +1070,7 @@ async function openFolder(dir) {
   }
 }
 $('#openSavedBtn').addEventListener('click', () => state.savedDir && openFolder(state.savedDir));
+$('#coverFromTailorBtn').addEventListener('click', () => state.savedId && openCoverFor(state.savedId));
 
 $('#newBtn').addEventListener('click', () => {
   if (state.tailored && !state.savedDir && !confirm('Your tailored résumé isn’t saved. Start a new application anyway?')) return;
@@ -1100,7 +1107,7 @@ async function loadHistory() {
         h('div', { class: 'card empty' },
           illustration(),
           h('p', { class: 'empty-line' }, 'Nothing saved yet.'),
-          h('p', { class: 'muted small' }, 'Tailor a résumé and choose “Save application”; it will be filed here by company.')));
+          h('p', { class: 'muted small' }, 'Tailor a résumé or write a cover letter and save it; it will be filed here by company.')));
       return;
     }
     const byCompany = new Map();
@@ -1132,12 +1139,14 @@ async function loadHistory() {
                 s.confidenceAfter != null
                   ? h('span', { class: `state ${toneState[tone(s.confidenceAfter)]}` }, `${s.confidenceLabel} · ${s.confidenceAfter}`)
                   : null,
+                a.hasCoverLetter ? h('span', { class: 'chip good' }, 'Cover letter') : null,
               ),
               h(
                 'div',
                 { class: 'btn-row' },
                 h('button', { class: 'btn ghost small', onclick: () => openFolder(a.dir) }, 'Open folder'),
-                h('button', { class: 'btn small', onclick: () => loadApp(a.id) }, 'Load'),
+                h('button', { class: 'btn ghost small', onclick: () => openCoverFor(a.id) }, a.hasCoverLetter ? 'Cover letter' : 'Write cover letter'),
+                a.hasResume !== false ? h('button', { class: 'btn small', onclick: () => loadApp(a.id) }, 'Load') : null,
               ),
             );
           }),
@@ -1168,6 +1177,7 @@ async function loadApp(id) {
       scoresAfter: a.scoresAfter,
       recheck: a.recheck || null,
       savedDir: r.dir,
+      savedId: id,
       saveCompany: a.company || '',
       saveRole: a.jobTitle || '',
     };
@@ -1421,6 +1431,952 @@ setInterval(beat, 30000);
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden) beat();
 });
+
+// ---------- cover letter ----------
+const COVER_KEY = 'selvedge-cover-v1';
+const MAX_FACTS = 2;
+
+function freshCover() {
+  return {
+    source: 'saved', // 'saved' | 'new'
+    appId: null,
+    appInfo: null, // {dir, company, jobTitle, date, hasResume, coverLetter}
+    newJob: { company: '', jobTitle: '', jd: '' },
+    newResume: { from: '', text: '', label: '' }, // from: 'tailor' | 'latest' | 'upload'
+    company: '',
+    jobTitle: '',
+    jd: '',
+    resumeText: '',
+    header: null, // {name, contact[]}
+    prep: null, // {questions, jdSkills, formatAdvice}
+    answers: [], // [{question, answer}]
+    companyNote: '',
+    website: '',
+    hiringManager: '',
+    tone: 'warm',
+    format: null,
+    formatChosen: false,
+    research: null,
+    researchState: 'idle', // idle | loading | done | error | skipped
+    researchError: '',
+    selected: [],
+    letter: '',
+    draft: '',
+    human: null,
+    humanStart: null,
+    passes: [],
+    scrubChanges: [],
+    flags: null,
+    pdfInfo: null,
+    model: null,
+    savedDir: null,
+    savedText: '',
+    saveCompany: '',
+    saveRole: '',
+  };
+}
+
+function loadCover() {
+  try {
+    const s = JSON.parse(localStorage.getItem(COVER_KEY));
+    if (!s || typeof s !== 'object') return null;
+    const c = { ...freshCover(), ...s };
+    if (c.researchState === 'loading') c.researchState = c.research ? 'done' : 'idle';
+    return c;
+  } catch {
+    return null;
+  }
+}
+
+let cover = loadCover() ?? freshCover();
+let coverApps = null;
+let researchCtl = null;
+let researchPromise = null;
+
+let coverTimer;
+function persistCover() {
+  clearTimeout(coverTimer);
+  coverTimer = setTimeout(() => {
+    try {
+      localStorage.setItem(COVER_KEY, JSON.stringify(cover));
+    } catch {}
+  }, 300);
+}
+
+const coverUnsaved = () => Boolean(cover.letter.trim()) && cover.letter !== cover.savedText;
+
+/** Forget everything after step 01 (a different job was chosen). */
+function resetCoverWork() {
+  researchCtl?.abort();
+  researchCtl = null;
+  Object.assign(cover, {
+    prep: null, answers: [], research: null, researchState: 'idle', researchError: '', selected: [], website: '', companyNote: '',
+    hiringManager: '', letter: '', draft: '', human: null, humanStart: null, passes: [], scrubChanges: [], flags: null, pdfInfo: null,
+    savedDir: null, savedText: '', saveCompany: '', saveRole: '', formatChosen: false, format: null,
+  });
+}
+
+function canPrepare() {
+  return Boolean(cover.jd.trim() && cover.resumeText.trim());
+}
+
+function updateCoverButtons() {
+  const prep = $('#coverPrepBtn');
+  if (!prep) return;
+  prep.disabled = busy || !canPrepare();
+  setButtonLabel(prep, cover.prep ? 'Refresh the questions' : 'Next: a few questions');
+  const write = $('#coverWriteBtn');
+  write.disabled = busy || !cover.prep;
+  setButtonLabel(write, cover.letter ? 'Write it again' : 'Write my cover letter');
+  $('#coverHumanizeBtn').disabled = busy || !cover.letter.trim();
+}
+
+// ----- step 01: the role -----
+
+function setChoice(group, attr, value) {
+  for (const b of $$(`#${group} .choice-opt`)) b.setAttribute('aria-checked', String(b.dataset[attr] === value));
+}
+
+function fmtDay(iso) {
+  if (!iso) return '';
+  const d = new Date(`${iso}T12:00:00`);
+  return Number.isNaN(d.getTime()) ? iso : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function renderCoverSource() {
+  setChoice('coverSourceChoice', 'source', cover.source);
+  const savedOpt = $('#coverSourceChoice [data-source="saved"]');
+  const none = coverApps && !coverApps.length;
+  savedOpt.disabled = Boolean(none);
+  $('span', savedOpt).textContent = none ? 'Nothing saved yet' : 'Uses its job description and tailored résumé';
+  $('#coverSavedPane').hidden = cover.source !== 'saved';
+  $('#coverNewPane').hidden = cover.source !== 'new';
+
+  // saved applications
+  const sel = $('#coverApp');
+  if (coverApps) {
+    setKids(sel, coverApps.map((a) =>
+      h('option', { value: a.id, selected: a.id === cover.appId }, `${a.company} · ${a.jobTitle}${a.date ? ` · ${fmtDay(a.date)}` : ''}`)));
+  }
+  const info = cover.appInfo;
+  const box = $('#coverAppInfo');
+  if (cover.source === 'saved' && info) {
+    const words = cover.jd.split(/\s+/).filter(Boolean).length;
+    setKids(box,
+      h('div', { class: 'chips' },
+        h('span', { class: 'chip' }, `Job description · ${words} words`),
+        h('span', { class: `chip ${cover.resumeText ? 'good' : 'bad'}` }, cover.resumeText ? (info.hasResume ? 'Tailored résumé' : 'Résumé from the letter') : 'No résumé text'),
+        cover.header?.name ? h('span', { class: 'chip' }, cover.header.name) : null),
+      info.coverLetter
+        ? h('div', { class: 'existing' },
+            h('span', {}, `This application already has a cover letter${info.coverLetter.savedAt ? `, saved ${fmtDay(info.coverLetter.savedAt.slice(0, 10))}` : ''}.`),
+            h('button', { class: 'btn small', onclick: openSavedLetter }, 'Open it'))
+        : null);
+  } else {
+    setKids(box);
+  }
+
+  // new job description
+  const nj = cover.newJob;
+  for (const [sel2, key] of [['#coverCompany', 'company'], ['#coverRole', 'jobTitle'], ['#coverJd', 'jd']]) {
+    if ($(sel2).value !== nj[key]) $(sel2).value = nj[key];
+  }
+  renderResumeSelect();
+  updateCoverButtons();
+}
+
+function latestResumeApp() {
+  return (coverApps || []).find((a) => a.hasResume);
+}
+
+function renderResumeSelect() {
+  const opts = [];
+  if (state.resumeText.trim()) opts.push(['tailor', `Résumé in New application${state.upload?.fileName ? ` (${state.upload.fileName})` : ''}`]);
+  const latest = latestResumeApp();
+  if (latest) opts.push(['latest', `Tailored résumé: ${latest.jobTitle} at ${latest.company}`]);
+  if (cover.newResume.from === 'upload') opts.push(['upload', `Uploaded: ${cover.newResume.label}`]);
+  opts.push(['pick', 'Upload a résumé (PDF or Word)…']);
+  const current = cover.newResume.from || (opts.length > 1 ? '' : 'pick');
+  setKids($('#coverResumeSel'),
+    current ? null : h('option', { value: '', selected: true, disabled: true }, 'Choose a résumé'),
+    opts.map(([v, label]) => h('option', { value: v, selected: v === current }, label)));
+  const words = cover.newResume.text.split(/\s+/).filter(Boolean).length;
+  $('#coverResumeNote').textContent = cover.newResume.text ? `${words} words of résumé text.` : '';
+}
+
+async function useResume(from) {
+  const r = cover.newResume;
+  if (from === 'tailor') {
+    Object.assign(r, { from, text: state.resumeText, label: state.upload?.fileName || 'New application' });
+  } else if (from === 'latest') {
+    const a = latestResumeApp();
+    if (!a) return;
+    try {
+      const d = await api(`/api/applications/${encodeURIComponent(a.id)}`);
+      Object.assign(r, { from, text: d.resumeText, label: `${a.jobTitle} at ${a.company}` });
+      if (d.resume) cover.header = { name: d.resume.name, contact: d.resume.contact || [] };
+    } catch (err) {
+      showError(err);
+    }
+  } else if (from === 'pick') {
+    $('#coverFile').click();
+    renderResumeSelect();
+    return;
+  }
+  if (cover.source === 'new') {
+    cover.resumeText = r.text;
+    if (from !== 'latest') cover.header = null;
+  }
+  persistCover();
+  renderCoverSource();
+}
+
+$('#coverResumeSel').addEventListener('change', (e) => useResume(e.target.value));
+$('#coverFile').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  e.target.value = '';
+  if (!file) return;
+  if (!/\.(pdf|docx)$/i.test(file.name)) {
+    toast('Please choose a PDF or Word (.docx) file.', { error: true });
+    return;
+  }
+  $('#coverResumeNote').textContent = `Reading ${file.name}…`;
+  const fd = new FormData();
+  fd.append('file', file);
+  try {
+    const r = await api('/api/parse', { method: 'POST', body: fd });
+    Object.assign(cover.newResume, { from: 'upload', text: r.text, label: r.fileName });
+    cover.resumeText = r.text;
+    cover.header = null;
+    persistCover();
+  } catch (err) {
+    showError(err);
+  }
+  renderCoverSource();
+});
+
+function defaultNewResume() {
+  if (cover.newResume.from) return;
+  if (state.resumeText.trim()) return useResume('tailor');
+  if (latestResumeApp()) return useResume('latest');
+}
+
+async function selectCoverApp(id) {
+  if (!id) return;
+  try {
+    const r = await api(`/api/applications/${encodeURIComponent(id)}`);
+    if (id !== cover.appId || cover.source !== 'saved') resetCoverWork();
+    cover.source = 'saved';
+    cover.appId = id;
+    cover.appInfo = {
+      dir: r.dir,
+      company: r.app.company || '',
+      jobTitle: r.app.jobTitle || '',
+      date: r.app.date || '',
+      hasResume: Boolean(r.resume),
+      coverLetter: r.coverLetter ? { text: r.coverLetter.text, savedAt: r.coverLetter.savedAt, record: r.coverLetter.record } : null,
+    };
+    cover.company = r.app.company || '';
+    cover.jobTitle = r.app.jobTitle || '';
+    cover.jd = r.jd || '';
+    cover.resumeText = r.resumeText || '';
+    cover.header = r.resume ? { name: r.resume.name, contact: r.resume.contact || [] } : r.coverLetter?.record?.header || null;
+    cover.savedDir = r.dir;
+    persistCover();
+  } catch (err) {
+    showError(err);
+  }
+  renderCover();
+}
+
+function switchSource(source) {
+  if (source === cover.source) return;
+  if (coverUnsaved() && !confirm('Your cover letter isn’t saved. Switch anyway?')) {
+    renderCoverSource();
+    return;
+  }
+  resetCoverWork();
+  cover.source = source;
+  if (source === 'new') {
+    cover.appId = null;
+    cover.appInfo = null;
+    Object.assign(cover, { company: cover.newJob.company, jobTitle: cover.newJob.jobTitle, jd: cover.newJob.jd, resumeText: cover.newResume.text, header: null });
+    defaultNewResume();
+  } else {
+    const first = coverApps?.[0]?.id;
+    if (first) selectCoverApp(first);
+  }
+  persistCover();
+  renderCover();
+}
+
+$$('#coverSourceChoice .choice-opt').forEach((b) => b.addEventListener('click', () => switchSource(b.dataset.source)));
+$('#coverApp').addEventListener('change', (e) => {
+  if (coverUnsaved() && !confirm('Your cover letter isn’t saved. Switch application anyway?')) {
+    e.target.value = cover.appId;
+    return;
+  }
+  selectCoverApp(e.target.value);
+});
+
+for (const [sel, key] of [['#coverCompany', 'company'], ['#coverRole', 'jobTitle'], ['#coverJd', 'jd']]) {
+  $(sel).addEventListener('input', (e) => {
+    cover.newJob[key] = e.target.value;
+    cover[key] = e.target.value;
+    persistCover();
+    updateCoverButtons();
+    if (cover.prep && key === 'jd') setStatus('#coverPrepStatus', 'The job description changed. Refresh the questions to match it.');
+  });
+}
+
+async function openCoverFor(appId) {
+  if (cover.appId !== appId && coverUnsaved() && !confirm('Your cover letter isn’t saved. Open a different application anyway?')) return;
+  cover.source = 'saved';
+  showView('cover');
+  await selectCoverApp(appId);
+  window.scrollTo({ top: 0 });
+}
+
+async function loadCoverView() {
+  renderCover();
+  try {
+    coverApps = (await api('/api/applications')).applications;
+  } catch {
+    coverApps = [];
+  }
+  if (cover.source === 'saved') {
+    if (!coverApps.length) {
+      cover.source = 'new';
+      Object.assign(cover, { company: cover.newJob.company, jobTitle: cover.newJob.jobTitle, jd: cover.newJob.jd, resumeText: cover.newResume.text });
+    } else if (!cover.appId || !coverApps.some((a) => a.id === cover.appId)) {
+      await selectCoverApp(coverApps[0].id);
+    }
+  }
+  if (cover.source === 'new') await defaultNewResume();
+  renderCover();
+}
+
+// ----- step 02: questions, research and options -----
+
+const kindLabel = { story: 'Your story', motivation: 'Why them', analogy: 'Analogy or interest', context: 'Context' };
+
+function renderQuestions() {
+  const qs = cover.prep?.questions || cover.answers.map((a) => ({ question: a.question }));
+  setKids($('#coverQuestions'),
+    h('div', { class: 'card-head' },
+      h('h3', {}, 'A few questions'),
+      h('p', { class: 'muted small' }, 'Specific beats impressive. Skip any that don’t fit you.')),
+    qs.map((q, i) =>
+      h('div', { class: 'question' },
+        h('div', { class: 'q-head' }, h('span', { class: 'q-num', 'aria-hidden': 'true' }, String(i + 1).padStart(2, '0')), h('span', { class: 'badge neutral' }, kindLabel[q.kind] || 'Question')),
+        h('label', { class: 'q-text', for: `coverQ${i}` }, q.question),
+        q.why ? h('p', { class: 'q-why' }, q.why) : null,
+        h('textarea', {
+          id: `coverQ${i}`,
+          rows: 3,
+          placeholder: q.placeholder || '',
+          value: cover.answers[i]?.answer || '',
+          oninput: (e) => {
+            cover.answers[i] = { question: q.question, answer: e.target.value };
+            persistCover();
+          },
+        }))),
+  );
+}
+
+function selectedFacts() {
+  const facts = cover.research?.facts || [];
+  return cover.selected.map((i) => facts[i]).filter(Boolean);
+}
+
+function researchSkeleton() {
+  return h('div', { class: 'r-skeleton', 'aria-hidden': 'true' }, [1, 2, 3].map(() => h('div', { class: 'sk-fact' }, h('div', { class: 'sk w90' }), h('div', { class: 'sk w70' }), h('div', { class: 'sk w40' }))));
+}
+
+function sourceLinks(sources = []) {
+  const seen = new Set();
+  return sources
+    .filter((s) => s.url && !seen.has(s.domain || s.url) && seen.add(s.domain || s.url))
+    .slice(0, 3)
+    .map((s) => h('a', { class: 'src', href: s.url, target: '_blank', rel: 'noopener', title: s.title || s.url }, s.kind === 'news' && s.title ? s.title : s.domain || s.title || 'source'));
+}
+
+function renderResearch() {
+  const box = $('#coverResearch');
+  const name = cover.company || 'the company';
+  const head = h('div', { class: 'card-head' }, h('h3', {}, 'What we found about ', h('span', { class: 'accent' }, name)));
+  const st = cover.researchState;
+  if (!cover.company.trim()) {
+    setKids(box, head, h('p', { class: 'muted small' }, 'Add the company name in step 01 and Selvedge will look them up.'));
+  } else if (st === 'loading') {
+    setKids(box, head,
+      h('div', { class: 'status small' }, h('span', { class: 'spinner' }), `Reading about ${name}…`,
+        h('button', { class: 'link-btn', onclick: skipResearch }, 'Skip')),
+      researchSkeleton());
+  } else if (st === 'error') {
+    setKids(box, head, h('p', { class: 'status error small' }, cover.researchError || 'The research failed.'),
+      h('button', { class: 'btn small', onclick: startResearch }, 'Try again'));
+  } else if (st === 'skipped' || st === 'idle') {
+    setKids(box, head, h('p', { class: 'muted small' }, st === 'skipped' ? 'Research skipped. The letter will focus on the role and your work.' : 'Not researched yet.'),
+      h('button', { class: 'btn small', onclick: startResearch }, `Research ${name}`));
+  } else {
+    const r = cover.research;
+    const facts = r.facts || [];
+    const how = r.method === 'google'
+      ? 'Searched with Google through Gemini.'
+      : r.method === 'web'
+        ? `Read ${(r.read || []).map((x) => (x.kind === 'news' ? `${x.count} news headline${x.count > 1 ? 's' : ''}` : x.kind === 'website' ? `${x.count} page${x.count > 1 ? 's' : ''} of their website` : 'Wikipedia')).join(', ')}.`
+        : '';
+    setKids(box, head,
+      r.summary ? h('p', { class: 'r-summary' }, r.summary) : null,
+      facts.length
+        ? [
+            h('p', { class: 'muted small' }, `Pick up to ${MAX_FACTS} to mention. Check them first: they come from the web.`),
+            h('div', { class: 'fact-list' }, facts.map((f, i) => {
+              const on = cover.selected.includes(i);
+              return h('label', { class: `fact-option${on ? ' on' : ''}` },
+                h('input', {
+                  type: 'checkbox',
+                  checked: on,
+                  onchange: (e) => {
+                    let sel = cover.selected.filter((x) => x !== i);
+                    if (e.target.checked) sel = [...sel, i].slice(-MAX_FACTS);
+                    cover.selected = sel;
+                    persistCover();
+                    renderResearch();
+                  },
+                }),
+                h('span', { class: 'item-body' },
+                  h('span', { class: 'fact-text' }, f.fact),
+                  f.relevance ? h('span', { class: 'fact-why' }, f.relevance) : null,
+                  f.angle ? h('span', { class: 'fact-angle' }, h('strong', {}, 'Angle: '), f.angle) : null,
+                  h('span', { class: 'fact-meta' },
+                    f.date ? h('span', { class: 'badge neutral' }, f.date) : null,
+                    f.verified === false ? h('span', { class: 'badge warn' }, 'No source found') : null,
+                    sourceLinks(f.sources))));
+            })),
+          ]
+        : r.method === 'none' ? null : h('p', { class: 'muted small' }, 'Nothing specific enough turned up. Add their website below and search again, or tell Selvedge what you know.'),
+      r.note ? h('p', { class: 'r-note' }, r.note) : null,
+      how ? h('p', { class: 'r-how' }, how) : null,
+      r.method === 'google' && r.searchHtml
+        ? h('iframe', { class: 'search-chips', title: 'Google Search suggestions', sandbox: 'allow-popups allow-popups-to-escape-sandbox', srcdoc: `<base target="_blank">${r.searchHtml}` })
+        : null,
+    );
+  }
+  if ($('#coverWebsite').value !== cover.website) $('#coverWebsite').value = cover.website;
+  if ($('#coverNote').value !== cover.companyNote) $('#coverNote').value = cover.companyNote;
+}
+
+function skipResearch() {
+  researchCtl?.abort();
+  researchCtl = null;
+  cover.researchState = 'skipped';
+  persistCover();
+  renderResearch();
+}
+
+function startResearch() {
+  if (!cover.company.trim()) return renderResearch();
+  researchCtl?.abort();
+  const ctl = new AbortController();
+  researchCtl = ctl;
+  cover.researchState = 'loading';
+  cover.research = null;
+  cover.selected = [];
+  renderResearch();
+  researchPromise = (async () => {
+    try {
+      const r = await api('/api/cover/research', {
+        method: 'POST',
+        signal: ctl.signal,
+        body: { company: cover.company, jobTitle: cover.jobTitle, jd: cover.jd, website: cover.website },
+      });
+      if (ctl !== researchCtl) return;
+      cover.research = r;
+      cover.researchState = 'done';
+      cover.selected = r.facts?.length ? [0] : [];
+      if (r.website && !cover.website) cover.website = r.website.replace(/^https?:\/\/(www\.)?/, '');
+    } catch (err) {
+      if (err.name === 'AbortError' || ctl !== researchCtl) return;
+      cover.researchState = 'error';
+      cover.researchError = err.message;
+    } finally {
+      if (ctl === researchCtl) {
+        researchCtl = null;
+        persistCover();
+        renderResearch();
+      }
+    }
+  })();
+  return researchPromise;
+}
+
+$('#coverResearchBtn').addEventListener('click', startResearch);
+$('#coverWebsite').addEventListener('input', (e) => {
+  cover.website = e.target.value.trim();
+  persistCover();
+});
+$('#coverWebsite').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') startResearch();
+});
+$('#coverNote').addEventListener('input', (e) => {
+  cover.companyNote = e.target.value;
+  persistCover();
+});
+
+function renderOptions() {
+  if ($('#coverManager').value !== cover.hiringManager) $('#coverManager').value = cover.hiringManager;
+  setChoice('coverTone', 'value', cover.tone);
+  const advice = cover.prep?.formatAdvice;
+  const format = cover.format || advice?.recommended || 'paragraphs';
+  setChoice('coverFormat', 'value', format);
+  for (const b of $$('#coverFormat .choice-opt')) {
+    $('.rec', b)?.remove();
+    if (advice?.recommended === b.dataset.value) $('strong', b).append(h('span', { class: 'rec' }, 'Recommended'));
+  }
+  setKids($('#coverFormatAdvice'), advice?.reason ? [h('strong', {}, 'Our take: '), advice.reason] : null);
+}
+
+$('#coverManager').addEventListener('input', (e) => {
+  cover.hiringManager = e.target.value;
+  persistCover();
+});
+$$('#coverTone .choice-opt').forEach((b) =>
+  b.addEventListener('click', () => {
+    cover.tone = b.dataset.value;
+    persistCover();
+    renderOptions();
+  }),
+);
+$$('#coverFormat .choice-opt').forEach((b) =>
+  b.addEventListener('click', () => {
+    cover.format = b.dataset.value;
+    cover.formatChosen = true;
+    persistCover();
+    renderOptions();
+  }),
+);
+
+let prepInFlight = false;
+async function coverPrepare() {
+  if (cover.letter && coverUnsaved() && !confirm('Refreshing the questions keeps your letter, but your answers will be replaced. Continue?')) return;
+  const knewCompany = Boolean(cover.company.trim());
+  if (knewCompany && (cover.researchState === 'idle' || cover.researchState === 'error')) startResearch();
+  // show step 02 right away, so the research can be read while the questions are written
+  const firstTime = $('#coverPersonal').hidden;
+  prepInFlight = true;
+  if (firstTime) {
+    $('#coverPersonal').hidden = false;
+    setKids($('#coverQuestions'),
+      h('div', { class: 'card-head' }, h('h3', {}, 'A few questions'), h('p', { class: 'muted small' }, 'Writing questions about your résumé and this role…')),
+      researchSkeleton());
+    renderResearch();
+    renderOptions();
+  }
+  const out = await runWithStatus($('#coverPrepStatus'), 'Gemini is reading the role and your résumé…', (signal) =>
+    api('/api/cover/prepare', {
+      method: 'POST',
+      signal,
+      body: { resumeText: cover.resumeText, jd: cover.jd, company: cover.company, jobTitle: cover.jobTitle },
+    }),
+  $('#coverPrepBtn'));
+  prepInFlight = false;
+  if (!out) {
+    if (firstTime && !cover.prep) {
+      setKids($('#coverQuestions'),
+        h('div', { class: 'card-head' }, h('h3', {}, 'A few questions'), h('p', { class: 'muted small' }, 'The questions couldn’t be written. Try “Next” again in a moment.')));
+    }
+    return;
+  }
+  const r = out.result;
+  cover.prep = { questions: r.questions, jdSkills: r.jdSkills, formatAdvice: r.formatAdvice };
+  cover.answers = r.questions.map((q) => ({ question: q.question, answer: '' }));
+  if (!cover.company && r.company) {
+    cover.company = r.company;
+    if (cover.source === 'new') cover.newJob.company = r.company;
+  }
+  if (!cover.jobTitle && r.jobTitle) {
+    cover.jobTitle = r.jobTitle;
+    if (cover.source === 'new') cover.newJob.jobTitle = r.jobTitle;
+  }
+  if (!cover.header?.name && r.candidate?.name) cover.header = r.candidate;
+  if (!cover.formatChosen) cover.format = r.formatAdvice?.recommended || 'paragraphs';
+  cover.model = r.model;
+  persistCover();
+  setStatus('#coverPrepStatus', `Ready in ${out.seconds}s.`, 'ok');
+  if (!knewCompany && cover.company) startResearch();
+  renderCover();
+  $('#coverPersonal').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  setTimeout(() => $('#coverQ0')?.focus({ preventScroll: true }), 500);
+}
+$('#coverPrepBtn').addEventListener('click', coverPrepare);
+
+function coverBody(extra = {}) {
+  return {
+    resumeText: cover.resumeText,
+    jd: cover.jd,
+    company: cover.company,
+    jobTitle: cover.jobTitle,
+    header: cover.header || { name: '', contact: [] },
+    answers: cover.answers.filter((a) => a?.answer?.trim()).map((a) => ({ question: a.question, answer: a.answer.trim() })),
+    companyNote: cover.companyNote.trim(),
+    facts: selectedFacts().map((f) => ({
+      fact: f.fact,
+      angle: f.angle || '',
+      date: f.date || '',
+      sources: (f.sources || []).map((s) => ({ title: s.title || s.domain || '', url: s.url || '' })),
+    })),
+    hiringManager: cover.hiringManager.trim(),
+    tone: cover.tone,
+    format: cover.format || 'paragraphs',
+    jdSkills: cover.prep?.jdSkills || cover.appInfo?.coverLetter?.record?.jdSkills || [],
+    ...extra,
+  };
+}
+
+function applyLetterResult(r, { fresh }) {
+  cover.letter = r.letter;
+  if (fresh) {
+    cover.draft = r.draft || '';
+    cover.humanStart = r.humanStart || null;
+    cover.passes = r.passes || [];
+  } else {
+    cover.passes = [...cover.passes, ...(r.passes || [])];
+  }
+  cover.scrubChanges = r.scrubChanges || [];
+  cover.human = r.human;
+  cover.flags = r.flags;
+  cover.pdfInfo = r.pdf;
+  cover.model = r.model || cover.model;
+  persistCover();
+}
+
+async function coverWrite() {
+  if (cover.letter && coverUnsaved() && !confirm('Write a new letter? Your edits to the current one will be replaced.')) return;
+  if (cover.researchState === 'loading' && researchPromise) {
+    setKids($('#coverWriteStatus'), h('span', { class: 'spinner' }), 'Finishing the company research first…');
+    await researchPromise;
+  }
+  const out = await runWithStatus($('#coverWriteStatus'), 'Writing your letter, then humanising it…', (signal) =>
+    api('/api/cover/write', { method: 'POST', signal, body: coverBody() }),
+  $('#coverWriteBtn'));
+  if (!out) return;
+  applyLetterResult(out.result, { fresh: true });
+  const skipped = (out.result.passes || []).some((p) => p.skipped);
+  setStatus('#coverWriteStatus', skipped
+    ? `Written in ${out.seconds}s, but Gemini was too busy to humanise it. Click Humanise again in a minute.`
+    : `Written and humanised in ${out.seconds}s.`, skipped ? '' : 'ok');
+  renderCover();
+  $('#coverResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+$('#coverWriteBtn').addEventListener('click', coverWrite);
+
+// ----- step 03: the letter -----
+
+function humanTile() {
+  const r = cover.human;
+  if (!r) return null;
+  const t = tone(r.score);
+  const start = cover.humanStart;
+  const d = start ? r.score - start.score : 0;
+  return h('div', { class: 'metric human', role: 'group', 'aria-label': `Human read: ${r.score} out of 100, ${r.label}` },
+    h('div', { class: 'metric-label' }, 'Human read', h('span', { class: `state ${toneState[t]}` }, r.label)),
+    h('div', { class: 'metric-value' }, h('span', { class: 'num' }, r.score), h('span', { class: 'of' }, '/ 100')),
+    h('div', { class: `meter ${toneState[t] === 'good' ? '' : toneState[t]}`, 'aria-hidden': 'true' }, h('span', { style: `width:${Math.max(2, r.score)}%` })),
+    start
+      ? h('div', { class: `metric-delta ${d > 0 ? 'up' : d < 0 ? 'down' : ''}` }, d === 0 ? `Same as the first draft (${start.score})` : `${d > 0 ? '▲' : '▼'} ${Math.abs(d)} from the first draft (${start.score})`)
+      : null,
+  );
+}
+
+function renderHumanChecks() {
+  const r = cover.human;
+  if (!r) return setKids($('#coverChecks'));
+  setKids($('#coverChecks'),
+    h('div', { class: 'meter-list checks-meters' },
+      r.checks.flatMap((c) => {
+        const t = toneState[tone(c.score)];
+        return [
+          h('span', { class: 'name', title: c.detail }, c.name),
+          h('div', { class: `meter ${t === 'good' ? '' : t}`, role: 'img', 'aria-label': `${c.name}: ${c.score} of 100` }, h('span', { style: `width:${Math.max(3, c.score)}%` })),
+          h('span', { class: 'fig' }, c.score),
+        ];
+      })),
+    h('p', { class: 'muted small' }, r.checks.find((c) => c.id === r.weakest)?.detail || ''),
+    r.slop.length
+      ? h('div', { class: 'kw-group' }, h('h4', {}, 'Stock phrases left'), h('div', { class: 'chips' }, r.slop.map((s) => h('span', { class: 'chip warn', title: s.replace ? `Try “${s.replace}”` : 'Rephrase or cut' }, s.count > 1 ? `${s.term} ×${s.count}` : s.term))))
+      : null,
+    r.tells.length
+      ? h('ul', { class: 'tell-list' }, r.tells.map((t) => h('li', {}, h('strong', {}, t.name), t.example ? h('span', { class: 'muted' }, ` “${t.example}”`) : null, h('span', { class: 'why' }, t.fix))))
+      : null,
+  );
+}
+
+function renderCoverEdits() {
+  const items = [];
+  cover.passes.forEach((p, i) => {
+    if (p.accepted) for (const e of p.edits) items.push(h('li', {}, e));
+    else if (p.skipped) items.push(h('li', { class: 'muted' }, `Editing pass ${i + 1} was skipped because Gemini was busy. Click Humanise again in a minute.`));
+    else if (p.rejected) items.push(h('li', { class: 'muted' }, `Editing pass ${i + 1} was discarded: ${p.rejected}.`));
+  });
+  for (const c of cover.scrubChanges) items.push(h('li', {}, c));
+  setKids($('#coverEdits'), items.length ? items : h('li', { class: 'muted' }, 'Nothing needed changing.'));
+}
+
+function renderCoverFlags() {
+  const f = cover.flags || {};
+  const box = $('#coverFlags');
+  const skills = f.unconfirmed || [];
+  const numbers = f.changedNumbers || [];
+  const ph = f.placeholders || [];
+  box.hidden = !skills.length && !numbers.length && !ph.length;
+  $('#coverSaveBtn').disabled = ph.length > 0;
+  if (box.hidden) return;
+  setKids(box,
+    h('strong', {}, 'Check these before you send it:'),
+    skills.length ? h('div', { class: 'alert-item' }, `Skills your résumé and answers don’t mention: ${skills.join(', ')}. Keep them only if they’re true for you.`) : null,
+    numbers.length
+      ? h('div', { class: 'alert-item' }, 'Numbers that aren’t in your résumé, your answers or the company facts:',
+          h('ul', {}, numbers.map((n) => h('li', {}, h('strong', {}, n.value), ` in “${n.context}”`))))
+      : null,
+    ph.length ? h('div', { class: 'alert-item' }, `Placeholders to fill in: ${ph.join(', ')}`) : null,
+  );
+}
+
+function renderCoverSaveFields() {
+  const root = settings?.rootFolder || '';
+  const fields = $('#coverSaveFields');
+  if (cover.source === 'saved' && cover.appInfo) {
+    setKids(fields, h('p', { class: 'small' }, h('strong', {}, 'Saves into '), `${cover.appInfo.company} · ${cover.appInfo.jobTitle}`));
+    $('#coverSavePreview').textContent = cover.appInfo.dir;
+  } else {
+    if (!cover.saveCompany) cover.saveCompany = cover.company;
+    if (!cover.saveRole) cover.saveRole = cover.jobTitle;
+    const input = (label, key) =>
+      h('label', { class: 'field' }, h('span', {}, label),
+        h('input', { type: 'text', autocomplete: 'off', value: cover[key], oninput: (e) => { cover[key] = e.target.value; persistCover(); renderCoverPreviewPath(); } }));
+    setKids(fields, input('Company folder', 'saveCompany'), input('Role', 'saveRole'));
+    renderCoverPreviewPath(root);
+  }
+}
+
+function renderCoverPreviewPath(root = settings?.rootFolder || '') {
+  if (cover.source === 'saved') return;
+  const company = (cover.saveCompany || 'Unknown Company').trim();
+  const role = (cover.saveRole || 'Role').trim();
+  $('#coverSavePreview').textContent = !root ? 'Set a save folder in Settings.' : cover.savedDir ? `Updates ${cover.savedDir}` : `Saves to ${root}\\${company}\\${role} (date)`;
+}
+
+function renderCoverPageFit() {
+  const el = $('#coverPageFit');
+  const info = cover.pdfInfo;
+  if (!info) return setKids(el);
+  el.className = `small status ${info.fits ? 'ok' : 'error'}`;
+  el.textContent = info.fits ? `The PDF fits on one page (${info.fontSize}pt text).` : `The PDF runs to ${info.pages} pages. Trim a paragraph to get it onto one.`;
+}
+
+function renderCoverResult() {
+  const has = Boolean(cover.letter);
+  $('#coverResult').hidden = !has;
+  if (!has) return;
+  if ($('#coverLetter').value !== cover.letter) $('#coverLetter').value = cover.letter;
+  autosizeLetter();
+  $('#coverDraftBox').hidden = !cover.draft;
+  $('#coverDraft').textContent = cover.draft;
+  setKids($('#coverHumanTile'), humanTile());
+  renderHumanChecks();
+  renderCoverEdits();
+  renderCoverFlags();
+  renderCoverPageFit();
+  renderCoverSaveFields();
+  const hd = cover.header || { name: '', contact: [] };
+  if (document.activeElement !== $('#coverName')) $('#coverName').value = hd.name || '';
+  if (document.activeElement !== $('#coverContact')) $('#coverContact').value = (hd.contact || []).join(' | ');
+  $('#coverOpenBtn').hidden = !cover.savedDir || (cover.source === 'new' && !cover.savedText);
+}
+
+function autosizeLetter() {
+  const ta = $('#coverLetter');
+  ta.style.height = 'auto';
+  ta.style.height = `${Math.max(420, ta.scrollHeight + 4)}px`;
+}
+
+let sizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(sizeTimer);
+  sizeTimer = setTimeout(() => !$('#coverResult').hidden && autosizeLetter(), 120);
+});
+
+let checkTimer;
+let checkCtl;
+function scheduleCoverCheck() {
+  clearTimeout(checkTimer);
+  checkTimer = setTimeout(async () => {
+    checkCtl?.abort();
+    checkCtl = new AbortController();
+    try {
+      const r = await api('/api/cover/check', { method: 'POST', signal: checkCtl.signal, body: coverBody({ letter: cover.letter }) });
+      cover.human = r.human;
+      cover.flags = r.flags;
+      cover.pdfInfo = r.pdf;
+      persistCover();
+      setKids($('#coverHumanTile'), humanTile());
+      renderHumanChecks();
+      renderCoverFlags();
+      renderCoverPageFit();
+    } catch (err) {
+      if (err.name !== 'AbortError') console.warn(err);
+    }
+  }, 450);
+}
+
+$('#coverLetter').addEventListener('input', (e) => {
+  cover.letter = e.target.value;
+  persistCover();
+  autosizeLetter();
+  updateCoverButtons();
+  scheduleCoverCheck();
+});
+$('#coverName').addEventListener('input', (e) => {
+  cover.header = { ...(cover.header || { contact: [] }), name: e.target.value };
+  persistCover();
+  scheduleCoverCheck();
+});
+$('#coverContact').addEventListener('input', (e) => {
+  cover.header = { ...(cover.header || { name: '' }), contact: e.target.value.split('|').map((s) => s.trim()).filter(Boolean) };
+  persistCover();
+  scheduleCoverCheck();
+});
+
+async function coverHumanizeAgain() {
+  const out = await runWithStatus($('#coverSaveStatus'), 'Humanising…', (signal) =>
+    api('/api/cover/humanize', { method: 'POST', signal, body: coverBody({ letter: cover.letter }) }),
+  $('#coverHumanizeBtn'));
+  if (!out) return;
+  const before = cover.human?.score;
+  applyLetterResult(out.result, { fresh: false });
+  setStatus('#coverSaveStatus', before != null ? `Done: human read ${before} → ${cover.human.score}.` : 'Done.', 'ok');
+  renderCover();
+}
+$('#coverHumanizeBtn').addEventListener('click', coverHumanizeAgain);
+
+async function coverSave() {
+  setStatus('#coverSaveStatus', 'Saving…');
+  setLoading($('#coverSaveBtn'), true);
+  try {
+    const saved = cover.source === 'saved' && cover.appId;
+    const r = await api('/api/cover/save', {
+      method: 'POST',
+      body: coverBody({
+        letter: cover.letter,
+        appId: saved ? cover.appId : undefined,
+        previousDir: saved ? undefined : cover.savedText ? cover.savedDir : undefined,
+        company: saved ? cover.company : (cover.saveCompany || cover.company).trim(),
+        jobTitle: saved ? cover.jobTitle : (cover.saveRole || cover.jobTitle).trim(),
+        research: cover.research,
+        selectedFacts: cover.selected,
+        model: cover.model,
+      }),
+    });
+    cover.savedDir = r.dir;
+    cover.savedText = cover.letter;
+    if (cover.appInfo) cover.appInfo.coverLetter = { text: cover.letter, savedAt: new Date().toISOString(), record: null };
+    persistCover();
+    coverApps = null;
+    setStatus('#coverSaveStatus', `Saved to ${r.dir}`, 'ok');
+    $('#coverOpenBtn').hidden = false;
+    renderCoverPreviewPath();
+    toast('Cover letter saved.', { action: { label: 'Open folder', fn: () => openFolder(r.dir) } });
+  } catch (err) {
+    setStatus('#coverSaveStatus', err.message, 'error');
+    showError(err);
+  } finally {
+    setLoading($('#coverSaveBtn'), false);
+  }
+}
+$('#coverSaveBtn').addEventListener('click', coverSave);
+
+$('#coverPdfBtn').addEventListener('click', async () => {
+  try {
+    const res = await api('/api/cover/pdf', { method: 'POST', raw: true, body: coverBody({ letter: cover.letter }) });
+    const blob = await res.blob();
+    const name = (res.headers.get('Content-Disposition') || '').match(/filename="([^"]+)"/)?.[1] || 'Cover_Letter.pdf';
+    const url = URL.createObjectURL(blob);
+    const a = h('a', { href: url, download: name });
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 15000);
+  } catch (err) {
+    showError(err);
+  }
+});
+
+$('#coverCopyBtn').addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(cover.letter);
+  } catch {
+    const ta = $('#coverLetter');
+    ta.select();
+    document.execCommand('copy');
+    ta.setSelectionRange(0, 0);
+  }
+  toast('Letter copied. Paste it into the application form.');
+});
+
+$('#coverOpenBtn').addEventListener('click', () => cover.savedDir && openFolder(cover.savedDir));
+
+function openSavedLetter() {
+  const c = cover.appInfo?.coverLetter;
+  if (!c) return;
+  const rec = c.record || {};
+  cover.letter = c.text || '';
+  cover.savedText = cover.letter;
+  cover.draft = '';
+  cover.passes = [];
+  cover.scrubChanges = [];
+  cover.humanStart = null;
+  if (rec.header) cover.header = rec.header;
+  cover.hiringManager = rec.hiringManager || cover.hiringManager;
+  cover.tone = rec.tone || cover.tone;
+  cover.format = rec.format || cover.format;
+  cover.companyNote = rec.companyNote || cover.companyNote;
+  if (rec.answers?.length) cover.answers = rec.answers;
+  if (rec.research) {
+    cover.research = rec.research;
+    cover.researchState = 'done';
+    cover.selected = (rec.research.facts || []).map((f, i) => (rec.factsUsed || []).some((u) => u.fact === f.fact) ? i : -1).filter((i) => i >= 0);
+  }
+  persistCover();
+  renderCover();
+  scheduleCoverCheck();
+  $('#coverResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+$('#coverResetBtn').addEventListener('click', () => {
+  if (coverUnsaved() && !confirm('Your cover letter isn’t saved. Start over anyway?')) return;
+  const keep = { source: cover.source, appId: cover.appId, newResume: cover.newResume };
+  cover = { ...freshCover(), ...keep };
+  setStatus('#coverPrepStatus', '');
+  setStatus('#coverWriteStatus', '');
+  setStatus('#coverSaveStatus', '');
+  persistCover();
+  loadCoverView();
+});
+
+function renderCover() {
+  renderCoverSource();
+  const prepped = prepInFlight || Boolean(cover.prep) || Boolean(cover.letter && cover.answers.length);
+  $('#coverPersonal').hidden = !prepped;
+  if (prepped) {
+    if (cover.prep || !prepInFlight) renderQuestions();
+    renderResearch();
+    renderOptions();
+  }
+  renderCoverResult();
+  updateCoverButtons();
+}
 
 // ---------- boot ----------
 function renderAll() {

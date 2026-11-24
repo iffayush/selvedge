@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.1.0 (2026-11-24)
+
+Download **`Selvedge-Setup-1.1.0.exe`** below and run it. It upgrades an existing install in place, keeping your settings, key and saved applications.
+
+### Cover letters
+
+- **New Cover letter view.** Start from a saved application (its job description and tailored résumé), or paste a new job description and choose a résumé.
+- **A few personal questions first.** Gemini asks about your story, why this company, and an analogy or interest, all specific to your résumé and the role. It also recommends paragraphs or paragraphs with bullets, and you choose.
+- **Company research.** Uses Google Search grounding when your Gemini plan allows it. Otherwise Selvedge reads Wikipedia, the company's website and recent Google News headlines, and Gemini picks 3 to 5 facts, each with its sources. You choose up to two to mention.
+- **Humaniser.** After the draft, one or two AI editing passes fix what five local checks flag: sentence rhythm, specific detail, stock phrases, typography and voice. A final scrub removes em dashes, curly quotes and invisible characters. Any edit that changes a number or adds a skill is discarded.
+- **Honesty checks.** Flags skills and numbers that aren't in your résumé, your answers or the company facts.
+- **Saved with the application.** The cover letter PDF (one page, same letterhead as the résumé), a plain-text copy, the research notes and your answers. History shows which applications have a letter.
+
 ## 1.0.0 (2026-11-24)
 
 The first release of **Selvedge**: résumés, finished properly.

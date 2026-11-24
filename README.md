@@ -7,7 +7,7 @@
 **Résumés, finished properly.**
 
 Tailor your résumé to any job description, with an honest ATS read, a shortlist estimate,<br>
-and a tailored version that never invents a single line.
+a tailored version that never invents a single line, and a cover letter that sounds like you.
 
 [![Latest release](https://img.shields.io/github/v/release/iffayush/selvedge?color=293A30&label=release)](https://github.com/iffayush/selvedge/releases/latest)
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-78927C)](#install)
@@ -39,6 +39,7 @@ Selvedge does the tailoring **and** checks the result against your original:
 | **Tells you what to do** | Missing keywords, unmet requirements, prioritised tips, and concrete **projects to build** to close your gaps. |
 | **Tailors, honestly** | Rewrites for the role using only what's true, and flags any skill or number that wasn't in your original. |
 | **Finishes the job** | Exports a one-page, ATS-friendly PDF with clickable links, and files every application by company. |
+| **Writes the cover letter** | Asks you a few personal questions, researches the company, drafts the letter, then edits it until it reads like a person wrote it. |
 
 > The name comes from weaving. The *selvedge* is the finished edge of a fabric that stops it from fraying: a résumé that holds up to scrutiny.
 
@@ -48,6 +49,7 @@ Selvedge does the tailoring **and** checks the result against your original:
 
 - [Install](#install)
 - [How it works](#how-it-works)
+- [Cover letters](#cover-letters)
 - [A real example](#a-real-example)
 - [Honesty by design](#honesty-by-design)
 - [How the scores work](#how-the-scores-work)
@@ -61,7 +63,7 @@ Selvedge does the tailoring **and** checks the result against your original:
 
 ## Install
 
-1. **Download** `Selvedge-Setup-1.0.0.exe` from the [latest release](https://github.com/iffayush/selvedge/releases/latest).
+1. **Download** `Selvedge-Setup-1.1.0.exe` from the [latest release](https://github.com/iffayush/selvedge/releases/latest).
 2. **Run it.** It installs for your Windows user only, with no admin rights needed, and adds Start menu and Desktop shortcuts.
    > The installer isn't code-signed, so Windows SmartScreen may show *"Windows protected your PC"*. Click **More info → Run anyway**.
 3. **Connect Gemini** on first launch. Selvedge needs a free Google Gemini API key, and walks you through getting one:
@@ -129,6 +131,51 @@ Every application you save is one click away in **History**:
 
 ---
 
+## Cover letters
+
+Open **Cover letter** in the sidebar, or click **Write a cover letter** after saving an application.
+
+**01 · The role.** Pick a saved application, and Selvedge reuses its job description and tailored résumé. Or choose **New job description**, paste one, and pick which résumé to use: the one in New application, your latest tailored résumé, or a new upload.
+
+**02 · Make it yours.** Gemini asks you three or four questions written for *your* résumé and *this* job: the story behind your strongest match, why this company in particular, and an analogy or interest that shows how you work. Answer in a sentence or two, or skip any. Your wording is kept.
+
+<img src="docs/screenshots/cover-questions.png" alt="Step two: personal questions about the candidate's résumé and the role, with tone and format options" width="900">
+
+While you answer, Selvedge **researches the company** and lists three to five specific facts, each linked to its source. Tick up to two to mention, so the letter shows you've done your homework without flattery.
+
+- With a Gemini plan that includes **Google Search grounding**, Gemini searches Google directly.
+- On the free tier, which usually doesn't include it, Selvedge reads **Wikipedia, the company's own website and recent Google News headlines** itself, and Gemini picks facts from those pages only.
+
+On the free-tier route, any fact the pages don't support is dropped. With Google Search, it's kept but marked **No source found**. Either way you can add the company website, or what you know yourself.
+
+<img src="docs/screenshots/cover-research.png" alt="Company research: specific recent facts about the company, each with its source, ready to tick" width="520">
+
+**Format.** Choose **Paragraphs** or **Paragraphs + bullets** (an opening, three results, a short close). Selvedge recommends one for each job:
+
+- **Paragraphs** for most roles. They read as more personal and carry a story well.
+- **Bullets** for roles with many measurable requirements, where recruiters skim for evidence.
+
+Selvedge never writes a letter that's all bullets, because it reads like your résumé again.
+
+**03 · Drafted, then humanised.** Gemini writes the letter, then the humaniser takes over:
+
+1. **Five local checks**, modelled on the signals AI-text detectors look for:
+   - **sentence rhythm**: does sentence length vary?
+   - **specific detail**: names and numbers
+   - **stock phrases**: *"passionate about", "leverage", "I am writing to express"* and about 150 more
+   - **typography**: em dashes, curly quotes, invisible characters
+   - **voice**: first person, contractions, and no template structures such as *"not only… but also"*
+2. **One or two AI editing passes** that fix exactly what the checks found. An edit that changes a number, adds a skill you never mentioned or scores worse is thrown away.
+3. **A final scrub** of em dashes, curly quotes and invisible characters, and plain swaps for leftover stock words.
+
+<img src="docs/screenshots/cover-letter.png" alt="The humanised cover letter in an editor, with the human-read score, the five checks and what the humaniser changed" width="900">
+
+Edit the letter freely; the checks update as you type. You can also click **Humanise again**, **Copy text** for application forms, or **Download PDF**. The PDF is one page and uses the same letterhead as your résumé. **Save cover letter** files the PDF, a text copy, the research notes and your answers in the application's folder.
+
+> The checks are local heuristics, not GPTZero or Turnitin, and no tool can promise those verdicts. What they do reliably is catch the habits that make a letter read as generated.
+
+---
+
 ## A real example
 
 Everything in this README comes from one real run of Selvedge, on a **fictional** candidate applying for a **fictional** role:
@@ -185,6 +232,8 @@ Two more safeguards work alongside them:
 - **Kept keywords.** Gemini is given the exact list of keywords your original already matches and must keep every one; any important keyword still missing afterwards is listed beside the editor.
 - **Links.** Project and portfolio links are copied exactly as written, never guessed.
 
+Cover letters get the same treatment. Skills that aren't in your résumé or your answers are flagged, and so are numbers that aren't in your résumé, your answers or the company facts you picked. Company facts are shown with their sources before you choose them.
+
 ---
 
 ## How the scores work
@@ -214,8 +263,14 @@ Documents\Selvedge\
         ├── job-description.txt                           the role you applied to
         ├── original-resume.pdf                           your file, exactly as uploaded
         ├── tailored-resume.json                          editable data
-        └── application.json                              scores, analysis and settings used
+        ├── application.json                              scores, analysis and settings used
+        ├── Priya_Sharma_Lumen_Analytics_Cover_Letter.pdf cover letter (one page)
+        ├── cover-letter.txt                              the letter as plain text, for forms
+        ├── company-research.md                           what was found, with sources
+        └── cover-letter.json                             your answers and the choices used
 ```
+
+A cover letter for a new job description gets a folder of its own in the same layout.
 
 Change the location under **Settings → Where applications are saved**. Settings and logs live in `%APPDATA%\Selvedge`.
 
@@ -223,9 +278,10 @@ Change the location under **Settings → Where applications are saved**. Setting
 
 ## Models, privacy and cost
 
-- **Runs on your computer.** The only things sent anywhere are the requests to the Gemini API: your résumé text and the job description, to Google.
+- **Runs on your computer.** Your résumé text, the job description and your cover letter answers go only to the Gemini API, at Google.
+- **Company research** sends only the company's name to Wikipedia and Google News, and fetches the company's own website. Nothing from your résumé goes there.
 - **Your key stays local.** It's stored on your machine, encrypted with your Windows account (DPAPI).
-- **Free tier.** A free Gemini key is enough. Each application uses two requests (analyse and tailor), plus one more if you re-check.
+- **Free tier.** A free Gemini key is enough. Each application uses two requests (analyse and tailor), plus one more if you re-check. A cover letter uses four or five: questions, research, the draft and one or two editing passes.
 - **Models.** The default is `gemini-3.6-flash`. If it's busy, unavailable or over quota, Selvedge falls back to `gemini-3.5-flash`, then `gemini-3.5-flash-lite`. **Settings** lists every model your key can use.
 - **Data use.** On Gemini's free tier, Google may use what you send, including résumé text, to improve its products. Enabling billing on your key switches it to the paid-tier data terms.
 - **The credit.** PDFs record "Selvedge by @iffayush" in their document properties only. Nothing is printed on the page, so neither recruiters nor ATS software see it.
@@ -304,9 +360,12 @@ server.js                browser mode for development
 lib/server-app.js        HTTP API (startServer)
 lib/gemini.js            Gemini client: JSON-schema output, Zod validation, model fallback
 lib/prompts.js           prompts and schemas for analyse, tailor and re-check
+lib/cover.js             cover letters: questions, the letter, the AI editing passes, honesty flags
+lib/humanize.js          the five human-read checks, stock-phrase list and the final scrub
+lib/research.js          company research: Google Search grounding, or Wikipedia, website and news
 lib/ats.js               ATS checks, keyword matching, scoring and the honesty checks
 lib/parse.js             PDF and Word parsing, including link targets and layout detection
-lib/pdf.js               one-page PDF writer
+lib/pdf.js               one-page PDF writer for résumés and cover letters
 lib/library.js           saved applications: folders, history, loading
 lib/report.js            the ats-report.md writer
 lib/config.js            settings, encrypted key storage
@@ -323,6 +382,7 @@ The screenshots and the example output are generated from the real app using the
 
 ```powershell
 npm run demo:data      # runs the pipeline on samples/ (two Gemini calls)
+npm run demo:cover     # the cover letter flow on the same sample (four to six Gemini calls)
 npm run screenshots    # captures docs/screenshots/*.png with Electron
 ```
 </details>
