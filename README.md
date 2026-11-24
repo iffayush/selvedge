@@ -61,7 +61,7 @@ Selvedge does the tailoring **and** checks the result against your original:
 
 ## Install
 
-1. **Download** `Selvedge Setup 1.0.0.exe` from the [latest release](https://github.com/iffayush/selvedge/releases/latest).
+1. **Download** `Selvedge-Setup-1.0.0.exe` from the [latest release](https://github.com/iffayush/selvedge/releases/latest).
 2. **Run it.** It installs for your Windows user only, with no admin rights needed, and adds Start menu and Desktop shortcuts.
    > The installer isn't code-signed, so Windows SmartScreen may show *"Windows protected your PC"*. Click **More info → Run anyway**.
 3. **Connect Gemini** on first launch. Selvedge needs a free Google Gemini API key, and walks you through getting one:

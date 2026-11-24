@@ -6,7 +6,7 @@ The first release of **Selvedge**: résumés, finished properly.
 
 ### Download
 
-Download **`Selvedge Setup 1.0.0.exe`** below and run it. It installs for your Windows user only (no admin rights needed) and adds Start menu and Desktop shortcuts. Windows 10 or 11, 64-bit.
+Download **`Selvedge-Setup-1.0.0.exe`** below and run it. It installs for your Windows user only (no admin rights needed) and adds Start menu and Desktop shortcuts. Windows 10 or 11, 64-bit.
 
 The installer isn't code-signed, so Windows SmartScreen may show "Windows protected your PC". Click **More info → Run anyway**. On first run, Selvedge asks for a free Gemini API key and links you to Google AI Studio to create one.
 

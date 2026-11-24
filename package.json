@@ -99,7 +99,7 @@
       "uninstallDisplayName": "Selvedge",
       "installerIcon": "assets/selvedge.ico",
       "uninstallerIcon": "assets/selvedge.ico",
-      "artifactName": "Selvedge Setup ${version}.${ext}"
+      "artifactName": "Selvedge-Setup-${version}.${ext}"
     }
   }
 }
