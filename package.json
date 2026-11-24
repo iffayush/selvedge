@@ -1,0 +1,105 @@
+{
+  "name": "selvedge",
+  "productName": "Selvedge",
+  "version": "1.0.0",
+  "description": "Résumé tailoring desktop app: ATS checks, shortlist confidence and job-tailored résumés, powered by the Google Gemini API.",
+  "author": "iffayush (https://github.com/iffayush)",
+  "license": "MIT",
+  "homepage": "https://github.com/iffayush/selvedge#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iffayush/selvedge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iffayush/selvedge/issues"
+  },
+  "keywords": [
+    "resume",
+    "ats",
+    "job-application",
+    "gemini",
+    "electron",
+    "desktop-app"
+  ],
+  "private": true,
+  "type": "module",
+  "main": "electron/main.mjs",
+  "scripts": {
+    "start": "node server.js",
+    "app": "electron .",
+    "dist": "electron-builder --win nsis --x64",
+    "fonts": "node scripts/copy-fonts.mjs",
+    "icon": "node scripts/make-icon.mjs",
+    "test": "node --test \"test/*.test.js\"",
+    "demo:data": "node scripts/make-demo-data.mjs",
+    "screenshots": "electron scripts/screenshots.mjs && node scripts/pdf-preview.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@google/genai": "^3.6.1",
+    "express": "^5.3.0",
+    "mammoth": "^1.13.0",
+    "multer": "^2.5.0",
+    "pdfjs-dist": "^6.5.438",
+    "pdfkit": "^0.21.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@fontsource-variable/cormorant-garamond": "^5.3.0",
+    "@fontsource-variable/dm-sans": "^5.3.0",
+    "@fontsource-variable/inter": "^5.3.0",
+    "electron": "^45.4.1",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "app.selvedge.desktop",
+    "productName": "Selvedge",
+    "copyright": "Copyright © 2026 iffayush",
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "electron/**",
+      "lib/**",
+      "public/**",
+      "assets/**",
+      "server.js",
+      "package.json",
+      "!**/*.map",
+      "!node_modules/@napi-rs/**",
+      "!node_modules/pdfjs-dist/build/**",
+      "!node_modules/pdfjs-dist/web/**",
+      "!node_modules/pdfjs-dist/types/**"
+    ],
+    "asarUnpack": [
+      "node_modules/pdfjs-dist/**"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/selvedge.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Selvedge",
+      "uninstallDisplayName": "Selvedge",
+      "installerIcon": "assets/selvedge.ico",
+      "uninstallerIcon": "assets/selvedge.ico",
+      "artifactName": "Selvedge Setup ${version}.${ext}"
+    }
+  }
+}

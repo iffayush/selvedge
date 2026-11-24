@@ -1,0 +1,28 @@
+Company: Lumen Analytics
+Role: Senior Data Analyst
+Saved: 2026-11-24
+------------------------------------------------
+Senior Data Analyst — Lumen Analytics (Pune, hybrid)
+
+Lumen Analytics helps mid-size retailers understand their customers. We're looking for a Senior Data Analyst to join our Insights team and own analyses from question to recommendation.
+
+What you'll do
+- Build and maintain dashboards in Power BI or Tableau that leadership uses every week
+- Write complex SQL against our Snowflake data warehouse
+- Design, run and analyse A/B tests with the product team
+- Build forecasting models in Python (pandas, scikit-learn)
+- Present findings and recommendations to non-technical stakeholders
+- Mentor two junior analysts
+
+What we're looking for (required)
+- 4+ years of experience in a data analyst or similar role
+- Bachelor's degree in Statistics, Mathematics, Computer Science or a related field
+- Expert SQL and strong Python
+- Experience with a BI tool (Power BI or Tableau)
+- Experience designing and analysing A/B tests
+
+Nice to have
+- Snowflake or dbt experience
+- Retail or e-commerce domain knowledge
+- Airflow or another orchestration tool
+- Experience mentoring other analysts

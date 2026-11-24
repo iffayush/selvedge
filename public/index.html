@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Selvedge</title>
+  <meta name="description" content="Selvedge: résumés, finished properly. Tailor your résumé to a role, with an honest ATS read and shortlist estimate.">
+  <meta name="application-name" content="Selvedge">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23293A30'/%3E%3Cpath d='M11 8.5h7.5l4.5 4.5v9.5a2 2 0 0 1-2 2H11a2 2 0 0 1-2-2v-12a2 2 0 0 1 2-2z' fill='%23F3F5EF'/%3E%3Cpath d='M13 18.2l2.6 2.6 5-5.2' stroke='%2378927C' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- shared drawings -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="g-sheet" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EEF2EB"/>
+      </linearGradient>
+      <linearGradient id="g-fold" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#E9EEE6"/><stop offset="1" stop-color="#D5DFD3"/>
+      </linearGradient>
+      <linearGradient id="g-leaf" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#C6D7C5"/><stop offset="1" stop-color="#93AD96"/>
+      </linearGradient>
+      <radialGradient id="g-shadow" cx=".5" cy=".5" r=".5">
+        <stop offset="0" stop-color="#293A30" stop-opacity=".16"/><stop offset="1" stop-color="#293A30" stop-opacity="0"/>
+      </radialGradient>
+      <symbol id="illus-sheet" viewBox="0 0 120 110">
+        <ellipse cx="58" cy="100" rx="40" ry="7" fill="url(#g-shadow)"/>
+        <path d="M30 14h40l18 18v58a8 8 0 0 1-8 8H30a8 8 0 0 1-8-8V22a8 8 0 0 1 8-8z" fill="url(#g-sheet)" stroke="#D3DDD1"/>
+        <path d="M70 14v12a6 6 0 0 0 6 6h12z" fill="url(#g-fold)"/>
+        <rect x="34" y="44" width="34" height="4" rx="2" fill="#DCE7DA"/>
+        <rect x="34" y="54" width="44" height="4" rx="2" fill="#E3EAE0"/>
+        <rect x="34" y="64" width="38" height="4" rx="2" fill="#E3EAE0"/>
+        <rect x="34" y="74" width="24" height="4" rx="2" fill="#E3EAE0"/>
+        <path d="M88 96c-2-14 2-30 14-42" stroke="#78927C" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M101 56c-9 0-15 6-15 13 9 0 15-6 15-13z" fill="url(#g-leaf)"/>
+        <path d="M93 72c-8-2-14 1-16 7 8 2 14-1 16-7z" fill="url(#g-leaf)"/>
+        <path d="M91 86c-7-3-13-1-16 4 7 3 13 1 16-4z" fill="url(#g-leaf)"/>
+      </symbol>
+      <symbol id="i-new" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 11v6M9 14h6"/></symbol>
+      <symbol id="i-history" viewBox="0 0 24 24"><path d="M4 7h16M4 7l1.2 11.2A2 2 0 0 0 7.2 20h9.6a2 2 0 0 0 2-1.8L20 7M9 4h6l1 3H8z"/><path d="M10 12h4"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></symbol>
+      <symbol id="i-quit" viewBox="0 0 24 24"><path d="M12 3v8"/><path d="M6.4 6.6a8 8 0 1 0 11.2 0"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4m0 0L8 8m4-4 4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></symbol>
+      <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="shell">
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="9" class="brand-bg"/>
+          <path d="M11 8.5h7.5l4.5 4.5v9.5a2 2 0 0 1-2 2H11a2 2 0 0 1-2-2v-12a2 2 0 0 1 2-2z" class="brand-page"/>
+          <path d="M13 18.2l2.6 2.6 5-5.2" class="brand-tick"/>
+        </svg>
+        <span class="brand-text">
+          <span class="wordmark"><em>Selvedge</em></span>
+          <span class="tagline">Résumés, finished properly.</span>
+        </span>
+      </div>
+
+      <nav class="nav" role="tablist" aria-label="Sections">
+        <button class="tab nav-item" role="tab" data-view="tailor" aria-selected="true" title="New application">
+          <svg class="icon" aria-hidden="true"><use href="#i-new"/></svg><span class="nav-label">New application</span>
+        </button>
+        <button class="tab nav-item" role="tab" data-view="history" aria-selected="false" title="History">
+          <svg class="icon" aria-hidden="true"><use href="#i-history"/></svg><span class="nav-label">History</span>
+        </button>
+        <button class="tab nav-item" role="tab" data-view="settings" aria-selected="false" title="Settings">
+          <svg class="icon" aria-hidden="true"><use href="#i-settings"/></svg><span class="nav-label">Settings</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="ai-badge" id="aiBadge" title="AI connection">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="ai-text"><span class="ai-label">Gemini</span><span id="aiModel" class="ai-model"></span></span>
+        </div>
+        <button id="quitBtn" class="nav-item quiet" title="Quit Selvedge">
+          <svg class="icon" aria-hidden="true"><use href="#i-quit"/></svg><span class="nav-label">Quit</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="main">
+      <!-- ========== TAILOR ========== -->
+      <section id="view-tailor" class="view">
+        <div id="connBanner" class="banner warn" hidden></div>
+
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">New application</p>
+            <h1>Tailor your résumé, <em>with intent</em>.</h1>
+            <p class="lede">Bring your résumé and a job description. You'll get an honest ATS read, a shortlist estimate, and a tailored version that stays true to your experience.</p>
+          </div>
+          <button id="newBtn" class="btn ghost">Start a new application</button>
+        </header>
+
+        <div class="grid-2 intake">
+          <section class="card step-card">
+            <div class="step-head">
+              <span class="step-num" aria-hidden="true">01</span>
+              <div>
+                <h2>Résumé</h2>
+                <p class="step-sub">PDF or Word. We read it the way an ATS would.</p>
+              </div>
+            </div>
+            <label id="dropzone" class="dropzone" tabindex="0">
+              <input id="fileInput" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
+              <svg class="dz-illus" aria-hidden="true"><use href="#illus-sheet"/></svg>
+              <svg class="dz-icon icon" aria-hidden="true"><use href="#i-upload"/></svg>
+              <span class="dz-title">Drop your résumé here, or <u>browse</u></span>
+              <span class="dz-sub">PDF or Word (.docx)</span>
+            </label>
+            <div id="fileInfo" class="file-info" hidden></div>
+            <details id="textDetails" class="extracted" hidden>
+              <summary>What an ATS reads from your file <span class="muted">· fix anything that looks wrong</span></summary>
+              <textarea id="resumeText" rows="14" spellcheck="true" aria-label="Extracted résumé text"></textarea>
+            </details>
+          </section>
+
+          <section class="card step-card">
+            <div class="step-head">
+              <span class="step-num" aria-hidden="true">02</span>
+              <div>
+                <h2>The role</h2>
+                <p class="step-sub">Paste the full description; company and title are optional.</p>
+              </div>
+            </div>
+            <div class="row-2">
+              <label class="field">
+                <span>Company <span class="opt">optional</span></span>
+                <input id="company" type="text" autocomplete="off" placeholder="Found from the description">
+              </label>
+              <label class="field">
+                <span>Job title <span class="opt">optional</span></span>
+                <input id="jobTitle" type="text" autocomplete="off" placeholder="e.g. Data Analyst">
+              </label>
+            </div>
+            <label class="field grow">
+              <span>Job description</span>
+              <textarea id="jd" rows="13" placeholder="Paste the full job description here"></textarea>
+            </label>
+          </section>
+        </div>
+
+        <div class="action-row">
+          <button id="analyzeBtn" class="btn primary large" disabled><span class="btn-label">Analyze résumé</span></button>
+          <div id="analyzeStatus" class="status" aria-live="polite"></div>
+        </div>
+
+        <!-- results -->
+        <section id="results" class="step-section" hidden>
+          <div class="step-head wide">
+            <span class="step-num" aria-hidden="true">03</span>
+            <div>
+              <h2>Analysis</h2>
+              <p class="step-sub">How your current résumé reads for this role.</p>
+            </div>
+          </div>
+          <div class="scores" id="scoreCards"></div>
+          <p id="fitRationale" class="rationale"></p>
+          <p id="capNote" class="cap-note" hidden></p>
+
+          <div class="card detail-card">
+            <div class="subtabs" role="tablist" aria-label="Analysis details">
+              <button class="subtab" data-sub="checks" aria-selected="true">ATS checks</button>
+              <button class="subtab" data-sub="keywords" aria-selected="false">Keywords</button>
+              <button class="subtab" data-sub="reqs" aria-selected="false">Requirements</button>
+              <button class="subtab" data-sub="tips" aria-selected="false">How to get shortlisted</button>
+              <button class="subtab" data-sub="projects" aria-selected="false">Projects to build</button>
+            </div>
+            <div class="subview" id="sub-checks"></div>
+            <div class="subview" id="sub-keywords" hidden></div>
+            <div class="subview" id="sub-reqs" hidden></div>
+            <div class="subview" id="sub-tips" hidden></div>
+            <div class="subview" id="sub-projects" hidden></div>
+          </div>
+
+          <div class="tailor-cta">
+            <div class="step-head">
+              <span class="step-num" aria-hidden="true">04</span>
+              <div>
+                <h2>Tailor it</h2>
+                <p class="step-sub" id="tailorNote">Gemini rewrites your résumé for this role using only what's true.</p>
+              </div>
+            </div>
+            <div class="action-row tight">
+              <button id="tailorBtn" class="btn primary large"><span class="btn-label">Tailor my résumé</span></button>
+              <div id="tailorStatus" class="status" aria-live="polite"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- tailored -->
+        <section id="tailored" class="step-section" hidden>
+          <header class="section-head">
+            <p class="eyebrow">Tailored</p>
+            <h2 class="h-display">Your résumé, <em>refined</em>.</h2>
+            <p class="lede">Edit anything below; the scores update as you type.</p>
+          </header>
+          <div id="additionsAlert" class="banner bad" hidden></div>
+          <div id="placeholderAlert" class="banner warn" hidden></div>
+
+          <div class="tailored-layout">
+            <div class="card editor" id="editor"></div>
+            <aside class="side">
+              <div class="card sticky save-card">
+                <h3>Save this application</h3>
+                <label class="field">
+                  <span>Company folder</span>
+                  <input id="saveCompany" type="text" autocomplete="off">
+                </label>
+                <label class="field">
+                  <span>Role</span>
+                  <input id="saveRole" type="text" autocomplete="off">
+                </label>
+                <p class="small" id="pageFit"></p>
+                <p class="muted small path" id="savePreview"></p>
+                <div class="btn-col">
+                  <button id="saveBtn" class="btn primary"><span class="btn-label">Save application</span></button>
+                  <button id="pdfBtn" class="btn">Download PDF</button>
+                  <button id="recheckBtn" class="btn ghost">Re-check with AI</button>
+                  <button id="openSavedBtn" class="btn ghost" hidden>Open folder</button>
+                </div>
+                <div id="saveStatus" class="status small" aria-live="polite"></div>
+              </div>
+              <div class="card changes-card">
+                <h3>What changed, and why</h3>
+                <ul id="changesList" class="changes"></ul>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </section>
+
+      <!-- ========== HISTORY ========== -->
+      <section id="view-history" class="view" hidden>
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Archive</p>
+            <h1>Saved <em>applications</em>.</h1>
+            <p class="lede path" id="historyRoot"></p>
+          </div>
+          <div class="btn-row">
+            <button id="openRootBtn" class="btn ghost">Open folder</button>
+            <button id="refreshHistoryBtn" class="btn">Refresh</button>
+          </div>
+        </header>
+        <div id="historyList" class="history"></div>
+      </section>
+
+      <!-- ========== SETTINGS ========== -->
+      <section id="view-settings" class="view" hidden>
+        <header class="page-head">
+          <div>
+            <p class="eyebrow">Preferences</p>
+            <h1>Settings, <em>quietly</em>.</h1>
+            <p class="lede">Selvedge uses Google's Gemini API to analyse and tailor your résumé.</p>
+          </div>
+        </header>
+
+        <div class="settings-grid">
+          <section class="card">
+            <h2>Gemini connection</h2>
+            <dl class="kv">
+              <dt>API key</dt><dd id="keyState">Checking…</dd>
+              <dt>Status</dt><dd id="aiStatus" class="muted">Not tested yet</dd>
+            </dl>
+            <div class="btn-row">
+              <button id="testBtn" class="btn primary"><span class="btn-label">Test connection</span></button>
+            </div>
+            <details class="advanced">
+              <summary>Use a different API key</summary>
+              <p class="small muted">Get a free key at aistudio.google.com/apikey. A key saved here is stored only on this computer.</p>
+              <div class="row-inline">
+                <input id="keyInput" type="password" autocomplete="off" placeholder="Paste a Gemini API key" aria-label="Gemini API key">
+                <button id="saveKeyBtn" class="btn">Save key</button>
+              </div>
+            </details>
+          </section>
+
+          <section class="card">
+            <h2>Model</h2>
+            <label class="field">
+              <span>Which Gemini model to use</span>
+              <select id="modelSelect"></select>
+            </label>
+            <p class="small muted">The recommended models were checked to work on the free tier. If one is busy or out of quota, Selvedge falls back to the next.</p>
+          </section>
+
+          <section class="card span-2">
+            <h2>Where applications are saved</h2>
+            <p class="muted small">Each application gets its own folder, <code>Company\Role (date)\</code>, holding the tailored PDF, the job description, your original résumé and the ATS report.</p>
+            <div class="row-inline">
+              <input id="rootInput" type="text" aria-label="Folder for saved applications">
+              <button id="browseBtn" class="btn">Browse…</button>
+              <button id="saveRootBtn" class="btn primary"><span class="btn-label">Save</span></button>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ================= WELCOME (first run) ================= -->
+  <div id="welcome" class="overlay" hidden>
+    <div class="overlay-card" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
+      <svg class="welcome-illus" aria-hidden="true"><use href="#illus-sheet"/></svg>
+      <p class="eyebrow">Welcome</p>
+      <h2 id="welcomeTitle" class="h-display">First, connect <em>Gemini</em>.</h2>
+      <p class="lede">Selvedge uses Google's Gemini AI to read job descriptions and tailor your résumé. It needs a free API key, which takes about a minute to create.</p>
+      <ol class="welcome-steps">
+        <li>
+          <span class="n" aria-hidden="true">1</span>
+          <div>
+            <strong>Open Google AI Studio</strong>
+            <p>Sign in with any Google account.</p>
+            <a class="btn" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">
+              Open AI Studio <svg class="icon sm" aria-hidden="true"><use href="#i-external"/></svg>
+            </a>
+          </div>
+        </li>
+        <li>
+          <span class="n" aria-hidden="true">2</span>
+          <div>
+            <strong>Create an API key</strong>
+            <p>Click <em>Create API key</em>, then copy it.</p>
+          </div>
+        </li>
+        <li>
+          <span class="n" aria-hidden="true">3</span>
+          <div class="grow">
+            <strong>Paste it here</strong>
+            <div class="row-inline">
+              <input id="welcomeKey" type="password" autocomplete="off" placeholder="Paste your Gemini API key" aria-label="Gemini API key">
+              <button id="welcomeSave" class="btn primary"><span class="btn-label">Save and continue</span></button>
+            </div>
+            <p id="welcomeStatus" class="status small" aria-live="polite"></p>
+          </div>
+        </li>
+      </ol>
+      <p class="fineprint">Your key stays on this computer. On Gemini's free tier, Google may use what you send, including your résumé text, to improve its products.</p>
+      <button id="welcomeSkip" class="btn ghost small">Not now</button>
+    </div>
+  </div>
+
+  <div id="toasts" class="toasts" aria-live="assertive"></div>
+  <script src="app.js" type="module"></script>
+</body>
+</html>

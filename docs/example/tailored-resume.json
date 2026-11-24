@@ -1,0 +1,100 @@
+{
+  "name": "Priya Sharma",
+  "headline": " Senior Data Analyst | SQL, Python, Tableau",
+  "contact": [
+    "priya.sharma@example.com",
+    "+91 98765 43210",
+    "Pune, India",
+    "linkedin.com/in/priya-sharma-example"
+  ],
+  "summary": "Data analyst with 4 years of experience turning retail sales and operations data into actionable business insights. Proven track record of owning end-to-end analyses, from SQL extraction and A/B testing to Tableau dashboard creation and stakeholder presentations.",
+  "skills": [
+    {
+      "category": "Languages & Databases",
+      "items": [
+        "SQL",
+        "Python",
+        "R",
+        "Snowflake"
+      ]
+    },
+    {
+      "category": "Tools & Technologies",
+      "items": [
+        "Tableau",
+        "Excel",
+        "Airflow",
+        "Git"
+      ]
+    },
+    {
+      "category": "Methods & Analysis",
+      "items": [
+        "A/B testing",
+        "Regression analysis",
+        "Data cleaning",
+        "Statistics"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "title": "Data Analyst",
+      "company": "Northwind Retail",
+      "location": "Pune, India",
+      "start": "Jan 2022",
+      "end": "Present",
+      "bullets": [
+        "Built 12 Tableau dashboards used weekly by 40 regional managers to track retail sales performance against business targets.",
+        "Automated monthly revenue reporting workflows using Python and SQL, reducing preparation time from 3 days to 4 hours.",
+        "Designed and analysed A/B tests on checkout process modifications, resulting in a 6% conversion rate lift.",
+        "Collaborated with cross-functional finance and supply chain teams to define key performance indicators and deliver stakeholder presentations."
+      ]
+    },
+    {
+      "title": "Junior Analyst",
+      "company": "Contoso Logistics",
+      "location": "Mumbai, India",
+      "start": "Jul 2020",
+      "end": "Dec 2021",
+      "bullets": [
+        "Cleaned and merged shipment dataset across 5 warehouse systems into a unified central reporting table using SQL.",
+        "Created quantitative Excel models to forecast weekly delivery volumes for logistics operations.",
+        "Fulfilled 120 ad hoc data analysis requests for operations managers to support daily operational decisions."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Customer churn model",
+      "context": "Python",
+      "link": "github.com/example/churn-model",
+      "bullets": [
+        "Trained a logistic regression model on public telecom data, achieving an evaluation metric of 0.81 AUC."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.Sc. Statistics",
+      "institution": "University of Pune",
+      "location": "Pune, India",
+      "start": "2017",
+      "end": "2020",
+      "details": []
+    }
+  ],
+  "certifications": [
+    "Google Data Analytics Certificate"
+  ],
+  "extras": [
+    {
+      "heading": "Languages",
+      "items": [
+        "English (fluent)",
+        "Hindi (native)",
+        "Marathi (native)"
+      ]
+    }
+  ]
+}

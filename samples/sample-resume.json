@@ -1,0 +1,98 @@
+{
+  "name": "Priya Sharma",
+  "headline": "Data Analyst | SQL, Python, Tableau",
+  "contact": [
+    "priya.sharma@example.com",
+    "+91 98765 43210",
+    "Pune, India",
+    "linkedin.com/in/priya-sharma-example"
+  ],
+  "summary": "Data analyst with 4 years of experience turning sales and operations data into dashboards and decisions. Comfortable owning analyses end to end, from SQL extraction to stakeholder presentations.",
+  "skills": [
+    {
+      "category": "Languages",
+      "items": [
+        "SQL",
+        "Python",
+        "R"
+      ]
+    },
+    {
+      "category": "Tools",
+      "items": [
+        "Tableau",
+        "Excel",
+        "Git",
+        "Airflow"
+      ]
+    },
+    {
+      "category": "Methods",
+      "items": [
+        "A/B testing",
+        "Regression analysis",
+        "Data cleaning"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "title": "Data Analyst",
+      "company": "Northwind Retail",
+      "location": "Pune, India",
+      "start": "Jan 2022",
+      "end": "Present",
+      "bullets": [
+        "Built 12 Tableau dashboards used weekly by 40 regional managers to track sales against targets.",
+        "Automated the monthly revenue report with Python and SQL, cutting preparation time from 3 days to 4 hours.",
+        "Designed and analysed A/B tests on checkout changes that lifted conversion by 6%.",
+        "Worked with finance and supply chain teams to define shared KPIs."
+      ]
+    },
+    {
+      "title": "Junior Analyst",
+      "company": "Contoso Logistics",
+      "location": "Mumbai, India",
+      "start": "Jul 2020",
+      "end": "Dec 2021",
+      "bullets": [
+        "Cleaned and merged shipment data from 5 warehouse systems into a single reporting table.",
+        "Created Excel models to forecast weekly delivery volumes.",
+        "Responsible for answering ad hoc data requests from operations managers."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Customer churn model",
+      "context": "Personal project, Python",
+      "link": "github.com/example/churn-model",
+      "bullets": [
+        "Trained a logistic regression model on public telecom data, reaching 0.81 AUC."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.Sc. Statistics",
+      "institution": "University of Pune",
+      "location": "Pune, India",
+      "start": "2017",
+      "end": "2020",
+      "details": []
+    }
+  ],
+  "certifications": [
+    "Google Data Analytics Certificate"
+  ],
+  "extras": [
+    {
+      "heading": "Languages",
+      "items": [
+        "English (fluent)",
+        "Hindi (native)",
+        "Marathi (native)"
+      ]
+    }
+  ]
+}

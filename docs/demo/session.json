@@ -1,0 +1,1063 @@
+{
+  "upload": {
+    "uploadId": null,
+    "fileName": "priya-sharma-resume.pdf",
+    "meta": {
+      "kind": "pdf",
+      "pages": 1,
+      "multiColumn": false,
+      "hasTables": false,
+      "oddChars": 0
+    }
+  },
+  "resumeText": "Priya Sharma\nData Analyst | SQL, Python, Tableau\npriya.sharma@example.com | +91 98765 43210 | Pune, India | linkedin.com/in/priya-sharma-example\nSUMMARY\nData analyst with 4 years of experience turning sales and operations data into dashboards and decisions. Comfortable\nowning analyses end to end, from SQL extraction to stakeholder presentations.\nSKILLS\nLanguages: SQL, Python, R\nTools: Tableau, Excel, Git, Airflow\nMethods: A/B testing, Regression analysis, Data cleaning\nEXPERIENCE\nData Analyst, Northwind Retail Jan 2022 – Present\nPune, India\n• Built 12 Tableau dashboards used weekly by 40 regional managers to track sales against targets.\n• Automated the monthly revenue report with Python and SQL, cutting preparation time from 3 days to 4 hours.\n• Designed and analysed A/B tests on checkout changes that lifted conversion by 6%.\n• Worked with finance and supply chain teams to define shared KPIs.\nJunior Analyst, Contoso Logistics Jul 2020 – Dec 2021\nMumbai, India\n• Cleaned and merged shipment data from 5 warehouse systems into a single reporting table.\n• Created Excel models to forecast weekly delivery volumes.\n• Responsible for answering ad hoc data requests from operations managers.\nPROJECTS\nCustomer churn model github.com/example/churn-model\nPersonal project, Python\n• Trained a logistic regression model on public telecom data, reaching 0.81 AUC.\nEDUCATION\nB.Sc. Statistics, University of Pune 2017 – 2020\nPune, India\nCERTIFICATIONS\n• Google Data Analytics Certificate\nLANGUAGES\n• English (fluent)\n• Hindi (native)\n• Marathi (native)",
+  "jd": "Senior Data Analyst — Lumen Analytics (Pune, hybrid)\n\nLumen Analytics helps mid-size retailers understand their customers. We're looking for a Senior Data Analyst to join our Insights team and own analyses from question to recommendation.\n\nWhat you'll do\n- Build and maintain dashboards in Power BI or Tableau that leadership uses every week\n- Write complex SQL against our Snowflake data warehouse\n- Design, run and analyse A/B tests with the product team\n- Build forecasting models in Python (pandas, scikit-learn)\n- Present findings and recommendations to non-technical stakeholders\n- Mentor two junior analysts\n\nWhat we're looking for (required)\n- 4+ years of experience in a data analyst or similar role\n- Bachelor's degree in Statistics, Mathematics, Computer Science or a related field\n- Expert SQL and strong Python\n- Experience with a BI tool (Power BI or Tableau)\n- Experience designing and analysing A/B tests\n\nNice to have\n- Snowflake or dbt experience\n- Retail or e-commerce domain knowledge\n- Airflow or another orchestration tool\n- Experience mentoring other analysts\n",
+  "company": "",
+  "jobTitle": "",
+  "analysis": {
+    "company": "Lumen Analytics",
+    "jobTitle": "Senior Data Analyst",
+    "seniority": "Senior",
+    "keywords": [
+      {
+        "term": "SQL",
+        "variants": [
+          "Structured Query Language",
+          "ANSI SQL"
+        ],
+        "category": "hard_skill",
+        "importance": "must"
+      },
+      {
+        "term": "Python",
+        "variants": [
+          "Python3",
+          "Py"
+        ],
+        "category": "hard_skill",
+        "importance": "must"
+      },
+      {
+        "term": "Tableau",
+        "variants": [
+          "Tableau Desktop",
+          "Tableau Server"
+        ],
+        "category": "tool",
+        "importance": "must"
+      },
+      {
+        "term": "Power BI",
+        "variants": [
+          "PowerBI",
+          "MS Power BI"
+        ],
+        "category": "tool",
+        "importance": "important"
+      },
+      {
+        "term": "A/B testing",
+        "variants": [
+          "A/B tests",
+          "split testing",
+          "hypothesis testing",
+          "experimentation"
+        ],
+        "category": "hard_skill",
+        "importance": "must"
+      },
+      {
+        "term": "pandas",
+        "variants": [
+          "Pandas library"
+        ],
+        "category": "tool",
+        "importance": "important"
+      },
+      {
+        "term": "scikit-learn",
+        "variants": [
+          "sklearn"
+        ],
+        "category": "tool",
+        "importance": "important"
+      },
+      {
+        "term": "Snowflake",
+        "variants": [
+          "Snowflake DW"
+        ],
+        "category": "tool",
+        "importance": "nice"
+      },
+      {
+        "term": "dbt",
+        "variants": [
+          "data build tool"
+        ],
+        "category": "tool",
+        "importance": "nice"
+      },
+      {
+        "term": "Airflow",
+        "variants": [
+          "Apache Airflow"
+        ],
+        "category": "tool",
+        "importance": "nice"
+      },
+      {
+        "term": "Statistics",
+        "variants": [
+          "Statistical Analysis",
+          "Math"
+        ],
+        "category": "qualification",
+        "importance": "must"
+      },
+      {
+        "term": "Forecasting",
+        "variants": [
+          "Predictive modeling",
+          "Time series forecasting"
+        ],
+        "category": "hard_skill",
+        "importance": "important"
+      },
+      {
+        "term": "Retail",
+        "variants": [
+          "E-commerce",
+          "Retail analytics"
+        ],
+        "category": "domain",
+        "importance": "nice"
+      },
+      {
+        "term": "Mentoring",
+        "variants": [
+          "Mentorship",
+          "Coaching",
+          "Leadership"
+        ],
+        "category": "soft_skill",
+        "importance": "nice"
+      },
+      {
+        "term": "Stakeholder presentation",
+        "variants": [
+          "Stakeholder communication",
+          "Data storytelling",
+          "Presenting findings"
+        ],
+        "category": "soft_skill",
+        "importance": "important"
+      }
+    ],
+    "requirements": [
+      {
+        "text": "4+ years of experience in a data analyst or similar role",
+        "type": "experience",
+        "mustHave": true,
+        "hard": true,
+        "status": "met",
+        "evidence": "Data analyst with 4 years of experience turning sales and operations data into dashboards and decisions.",
+        "note": "Candidate meets the 4-year experience threshold across two roles."
+      },
+      {
+        "text": "Bachelor's degree in Statistics, Mathematics, Computer Science or a related field",
+        "type": "education",
+        "mustHave": true,
+        "hard": true,
+        "status": "met",
+        "evidence": "B.Sc. Statistics, University of Pune 2017 – 2020",
+        "note": "Degree matches the explicit qualification requirements."
+      },
+      {
+        "text": "Expert SQL and strong Python",
+        "type": "skill",
+        "mustHave": true,
+        "hard": false,
+        "status": "met",
+        "evidence": "Languages: SQL, Python, R",
+        "note": "Demonstrated usage of SQL and Python in report automation and data extraction."
+      },
+      {
+        "text": "Experience with a BI tool (Power BI or Tableau)",
+        "type": "skill",
+        "mustHave": true,
+        "hard": false,
+        "status": "met",
+        "evidence": "Built 12 Tableau dashboards used weekly by 40 regional managers to track sales against targets.",
+        "note": "Has strong hands-on experience creating production Tableau dashboards."
+      },
+      {
+        "text": "Experience designing and analysing A/B tests",
+        "type": "skill",
+        "mustHave": true,
+        "hard": false,
+        "status": "met",
+        "evidence": "Designed and analysed A/B tests on checkout changes that lifted conversion by 6%.",
+        "note": "Direct match for designing and evaluating experiment metrics."
+      },
+      {
+        "text": "Build forecasting models in Python (pandas, scikit-learn)",
+        "type": "skill",
+        "mustHave": false,
+        "hard": false,
+        "status": "partial",
+        "evidence": "Created Excel models to forecast weekly delivery volumes.",
+        "note": "Forecasting experience is listed using Excel rather than Python libraries like pandas and scikit-learn."
+      },
+      {
+        "text": "Snowflake or dbt experience",
+        "type": "skill",
+        "mustHave": false,
+        "hard": false,
+        "status": "missing",
+        "evidence": "",
+        "note": "No mention of Snowflake or dbt on the resume."
+      },
+      {
+        "text": "Retail or e-commerce domain knowledge",
+        "type": "experience",
+        "mustHave": false,
+        "hard": false,
+        "status": "met",
+        "evidence": "Data Analyst, Northwind Retail Jan 2022 – Present",
+        "note": "Currently works directly in the retail sector."
+      },
+      {
+        "text": "Airflow or another orchestration tool",
+        "type": "skill",
+        "mustHave": false,
+        "hard": false,
+        "status": "met",
+        "evidence": "Tools: Tableau, Excel, Git, Airflow",
+        "note": "Airflow is explicitly listed under technical tools."
+      },
+      {
+        "text": "Experience mentoring other analysts",
+        "type": "skill",
+        "mustHave": false,
+        "hard": false,
+        "status": "missing",
+        "evidence": "",
+        "note": "No indication of mentoring junior team members or leading initiatives."
+      }
+    ],
+    "fitScore": 85,
+    "fitRationale": "Priya is a strong fit for this position as she meets all mandatory experience, education, and hard skill criteria. She works in Pune (matching the job location), has a B.Sc. in Statistics, brings 4 years of retail analytics experience, and has proven success with SQL, Python, Tableau, and A/B testing. Her main gaps are nice-to-haves: Snowflake/dbt experience and explicit mentorship details.",
+    "strengths": [
+      "Meets the gating minimums of 4 years of experience and a B.Sc. in Statistics.",
+      "Direct retail domain experience aligned with Lumen Analytics' core client base.",
+      "Proven experience building weekly production dashboards in Tableau and running conversion A/B tests.",
+      "Location match in Pune, India for a hybrid work model.",
+      "Quantified achievements demonstrating clear business impact."
+    ],
+    "gaps": [
+      "No exposure to Snowflake or dbt listed on the resume.",
+      "Lacks explicit details on Python libraries (pandas, scikit-learn) in the Skills section.",
+      "Forecasting is currently shown via Excel models rather than Python.",
+      "No explicit bullet point showing mentorship of junior analysts or peers."
+    ],
+    "redFlags": [],
+    "shortlistTips": [
+      {
+        "priority": "high",
+        "tip": "Explicitly add pandas, scikit-learn, and statsmodels to the Skills section.",
+        "why": "The job description specifically asks for Python modeling using pandas and scikit-learn."
+      },
+      {
+        "priority": "high",
+        "tip": "Reframe experience at Northwind Retail to highlight mentorship if applicable.",
+        "why": "The job requires mentoring two junior analysts; showing informal onboarding or code reviews proves leadership readiness."
+      },
+      {
+        "priority": "medium",
+        "tip": "Add specific details on data warehousing systems used with SQL.",
+        "why": "The job specifies Snowflake SQL; naming the database dialect used at Northwind Retail shows scale."
+      },
+      {
+        "priority": "medium",
+        "tip": "Quantify the scale of data processed in Python and SQL bullet points.",
+        "why": "Senior roles filter for handling high-volume datasets and complex pipelines."
+      },
+      {
+        "priority": "low",
+        "tip": "Elaborate on stakeholder presentation experiences under Northwind Retail.",
+        "why": "Presenting recommendations to non-technical stakeholders is highlighted in the job duties."
+      }
+    ],
+    "projectIdeas": [
+      {
+        "title": "E-Commerce Customer LTV & Churn Pipeline on Snowflake",
+        "whatToBuild": "Build a end-to-end data pipeline using dbt and Snowflake on public e-commerce data. Develop Python forecasting scripts using pandas and scikit-learn to predict customer lifetime value and churn, and orchestrate the flow with Airflow.",
+        "skills": [
+          "Snowflake",
+          "dbt",
+          "Python",
+          "pandas",
+          "scikit-learn",
+          "Airflow"
+        ],
+        "gapsClosed": [
+          "Snowflake or dbt experience",
+          "Build forecasting models in Python (pandas, scikit-learn)"
+        ],
+        "effort": "one_to_two_weeks",
+        "resumeLine": "Engineered a Snowflake & dbt transformation pipeline and Python (scikit-learn) customer LTV forecast model, automated via Airflow."
+      },
+      {
+        "title": "Retail A/B Test & Forecasting Dashboard",
+        "whatToBuild": "Create a Streamlit or Tableau dashboard integrated with a Python backend that runs automated statistical hypothesis testing for retail product page experiments alongside a time-series revenue forecast.",
+        "skills": [
+          "Python",
+          "pandas",
+          "Tableau",
+          "A/B testing",
+          "Forecasting"
+        ],
+        "gapsClosed": [
+          "Build forecasting models in Python (pandas, scikit-learn)"
+        ],
+        "effort": "weekend",
+        "resumeLine": "Developed a Python-powered forecasting engine integrated with Tableau, enabling automated statistical testing for retail merchandising."
+      }
+    ],
+    "otherWaysToQualify": [
+      {
+        "type": "course",
+        "suggestion": "Complete the 'dbt Fundamentals' free course by dbt Labs.",
+        "why": "It takes under 5 hours and provides an official badge validating dbt knowledge."
+      },
+      {
+        "type": "course",
+        "suggestion": "Complete Snowflake Hands-On Essentials badge on Snowflake University.",
+        "why": "Demonstrates practical familiarity with Snowflake data warehousing concepts."
+      }
+    ]
+  },
+  "scoresBefore": {
+    "ats": {
+      "score": 80,
+      "keywordPart": 63,
+      "formatPart": 96
+    },
+    "keywords": {
+      "score": 63,
+      "matched": 8,
+      "total": 15,
+      "byImportance": {
+        "must": {
+          "matched": 5,
+          "total": 5
+        },
+        "important": {
+          "matched": 1,
+          "total": 5
+        },
+        "nice": {
+          "matched": 2,
+          "total": 5
+        }
+      },
+      "matches": [
+        {
+          "term": "SQL",
+          "variants": [
+            "Structured Query Language",
+            "ANSI SQL"
+          ],
+          "category": "hard_skill",
+          "importance": "must",
+          "matched": true,
+          "matchedAs": "SQL"
+        },
+        {
+          "term": "Python",
+          "variants": [
+            "Python3",
+            "Py"
+          ],
+          "category": "hard_skill",
+          "importance": "must",
+          "matched": true,
+          "matchedAs": "Python"
+        },
+        {
+          "term": "Tableau",
+          "variants": [
+            "Tableau Desktop",
+            "Tableau Server"
+          ],
+          "category": "tool",
+          "importance": "must",
+          "matched": true,
+          "matchedAs": "Tableau"
+        },
+        {
+          "term": "Power BI",
+          "variants": [
+            "PowerBI",
+            "MS Power BI"
+          ],
+          "category": "tool",
+          "importance": "important",
+          "matched": false,
+          "matchedAs": null
+        },
+        {
+          "term": "A/B testing",
+          "variants": [
+            "A/B tests",
+            "split testing",
+            "hypothesis testing",
+            "experimentation"
+          ],
+          "category": "hard_skill",
+          "importance": "must",
+          "matched": true,
+          "matchedAs": "A/B testing"
+        },
+        {
+          "term": "pandas",
+          "variants": [
+            "Pandas library"
+          ],
+          "category": "tool",
+          "importance": "important",
+          "matched": false,
+          "matchedAs": null
+        },
+        {
+          "term": "scikit-learn",
+          "variants": [
+            "sklearn"
+          ],
+          "category": "tool",
+          "importance": "important",
+          "matched": false,
+          "matchedAs": null
+        },
+        {
+          "term": "Snowflake",
+          "variants": [
+            "Snowflake DW"
+          ],
+          "category": "tool",
+          "importance": "nice",
+          "matched": false,
+          "matchedAs": null
+        },
+        {
+          "term": "dbt",
+          "variants": [
+            "data build tool"
+          ],
+          "category": "tool",
+          "importance": "nice",
+          "matched": false,
+          "matchedAs": null
+        },
+        {
+          "term": "Airflow",
+          "variants": [
+            "Apache Airflow"
+          ],
+          "category": "tool",
+          "importance": "nice",
+          "matched": true,
+          "matchedAs": "Airflow"
+        },
+        {
+          "term": "Statistics",
+          "variants": [
+            "Statistical Analysis",
+            "Math"
+          ],
+          "category": "qualification",
+          "importance": "must",
+          "matched": true,
+          "matchedAs": "Statistics"
+        },
+        {
+          "term": "Forecasting",
+          "variants": [
+            "Predictive modeling",
+            "Time series forecasting"
+          ],
+          "category": "hard_skill",
+          "importance": "important",
+          "matched": false,
+          "matchedAs": null
+        },
+        {
+          "term": "Retail",
+          "variants": [
+            "E-commerce",
+            "Retail analytics"
+          ],
+          "category": "domain",
+          "importance": "nice",
+          "matched": true,
+          "matchedAs": "Retail"
+        },
+        {
+          "term": "Mentoring",
+          "variants": [
+            "Mentorship",
+            "Coaching",
+            "Leadership"
+          ],
+          "category": "soft_skill",
+          "importance": "nice",
+          "matched": false,
+          "matchedAs": null
+        },
+        {
+          "term": "Stakeholder presentation",
+          "variants": [
+            "Stakeholder communication",
+            "Data storytelling",
+            "Presenting findings"
+          ],
+          "category": "soft_skill",
+          "importance": "important",
+          "matched": true,
+          "matchedAs": "Stakeholder presentation"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "email",
+        "label": "Email address",
+        "status": "pass",
+        "detail": "Found an email address.",
+        "weight": 2
+      },
+      {
+        "id": "phone",
+        "label": "Phone number",
+        "status": "pass",
+        "detail": "Found a phone number.",
+        "weight": 1
+      },
+      {
+        "id": "linkedin",
+        "label": "LinkedIn profile",
+        "status": "pass",
+        "detail": "Found a LinkedIn URL.",
+        "weight": 0.5
+      },
+      {
+        "id": "sections",
+        "label": "Standard section headings",
+        "status": "pass",
+        "detail": "Found: summary, skills, experience, projects, education, certifications.",
+        "weight": 2
+      },
+      {
+        "id": "length",
+        "label": "Length",
+        "status": "warn",
+        "detail": "230 words: quite thin. Add detail on your impact.",
+        "weight": 1
+      },
+      {
+        "id": "metrics",
+        "label": "Quantified achievements",
+        "status": "pass",
+        "detail": "5 of 8 bullets include a number (63%). Aim for 40% or more.",
+        "weight": 1.5
+      },
+      {
+        "id": "verbs",
+        "label": "Bullets start with action verbs",
+        "status": "pass",
+        "detail": "6 of 8 bullets start with an action verb (75%).",
+        "weight": 1
+      },
+      {
+        "id": "pronouns",
+        "label": "No first-person pronouns",
+        "status": "pass",
+        "detail": "Bullets avoid \"I\", \"me\" and \"my\".",
+        "weight": 0.5
+      },
+      {
+        "id": "dates",
+        "label": "Consistent date format",
+        "status": "pass",
+        "detail": "Dates use one format.",
+        "weight": 0.5
+      },
+      {
+        "id": "columns",
+        "label": "Single-column layout",
+        "status": "pass",
+        "detail": "No side-by-side columns detected.",
+        "weight": 1
+      },
+      {
+        "id": "tables",
+        "label": "No tables",
+        "status": "pass",
+        "detail": "No tables found.",
+        "weight": 1
+      },
+      {
+        "id": "chars",
+        "label": "Readable characters",
+        "status": "pass",
+        "detail": "No icons or unreadable characters.",
+        "weight": 1
+      }
+    ],
+    "confidence": {
+      "score": 77,
+      "label": "High",
+      "parts": {
+        "keywords": 63,
+        "requirements": 83,
+        "fit": 85
+      },
+      "capped": false,
+      "blockers": []
+    }
+  },
+  "model": "gemini-3.6-flash",
+  "confirmed": [
+    "Snowflake"
+  ],
+  "tailored": {
+    "resume": {
+      "name": "Priya Sharma",
+      "headline": " Senior Data Analyst | SQL, Python, Tableau",
+      "contact": [
+        "priya.sharma@example.com",
+        "+91 98765 43210",
+        "Pune, India",
+        "linkedin.com/in/priya-sharma-example"
+      ],
+      "summary": "Data analyst with 4 years of experience turning retail sales and operations data into actionable business insights. Proven track record of owning end-to-end analyses, from SQL extraction and A/B testing to Tableau dashboard creation and stakeholder presentations.",
+      "skills": [
+        {
+          "category": "Languages & Databases",
+          "items": [
+            "SQL",
+            "Python",
+            "R",
+            "Snowflake"
+          ]
+        },
+        {
+          "category": "Tools & Technologies",
+          "items": [
+            "Tableau",
+            "Excel",
+            "Airflow",
+            "Git"
+          ]
+        },
+        {
+          "category": "Methods & Analysis",
+          "items": [
+            "A/B testing",
+            "Regression analysis",
+            "Data cleaning",
+            "Statistics"
+          ]
+        }
+      ],
+      "experience": [
+        {
+          "title": "Data Analyst",
+          "company": "Northwind Retail",
+          "location": "Pune, India",
+          "start": "Jan 2022",
+          "end": "Present",
+          "bullets": [
+            "Built 12 Tableau dashboards used weekly by 40 regional managers to track retail sales performance against business targets.",
+            "Automated monthly revenue reporting workflows using Python and SQL, reducing preparation time from 3 days to 4 hours.",
+            "Designed and analysed A/B tests on checkout process modifications, resulting in a 6% conversion rate lift.",
+            "Collaborated with cross-functional finance and supply chain teams to define key performance indicators and deliver stakeholder presentations."
+          ]
+        },
+        {
+          "title": "Junior Analyst",
+          "company": "Contoso Logistics",
+          "location": "Mumbai, India",
+          "start": "Jul 2020",
+          "end": "Dec 2021",
+          "bullets": [
+            "Cleaned and merged shipment dataset across 5 warehouse systems into a unified central reporting table using SQL.",
+            "Created quantitative Excel models to forecast weekly delivery volumes for logistics operations.",
+            "Fulfilled [number] ad hoc data analysis requests for operations managers to support daily operational decisions."
+          ]
+        }
+      ],
+      "projects": [
+        {
+          "name": "Customer churn model",
+          "context": "Python",
+          "link": "github.com/example/churn-model",
+          "bullets": [
+            "Trained a logistic regression model on public telecom data, achieving an evaluation metric of 0.81 AUC."
+          ]
+        }
+      ],
+      "education": [
+        {
+          "degree": "B.Sc. Statistics",
+          "institution": "University of Pune",
+          "location": "Pune, India",
+          "start": "2017",
+          "end": "2020",
+          "details": []
+        }
+      ],
+      "certifications": [
+        "Google Data Analytics Certificate"
+      ],
+      "extras": [
+        {
+          "heading": "Languages",
+          "items": [
+            "English (fluent)",
+            "Hindi (native)",
+            "Marathi (native)"
+          ]
+        }
+      ]
+    },
+    "changes": [
+      {
+        "section": "Headline & Summary",
+        "what": "Reframed headline to Senior Data Analyst and targeted summary around retail analytics, SQL extraction, A/B testing, and stakeholder presentation.",
+        "why": "Aligns the candidate directly with the core requirements of the Senior Data Analyst position at Lumen Analytics."
+      },
+      {
+        "section": "Skills",
+        "what": "Added confirmed skill Snowflake and explicitly highlighted Statistics from education context.",
+        "why": "Directly matches key target keywords requested by the job description while strictly adhering to confirmed skills."
+      },
+      {
+        "section": "Experience",
+        "what": "Enhanced action verbs and incorporated retail context into Northwind Retail and Contoso Logistics bullet points.",
+        "why": "Emphasizes relevant domain expertise and analytical methodologies to match the target job description."
+      }
+    ],
+    "placeholders": [
+      {
+        "placeholder": "[number]",
+        "hint": "Specify the average number of ad hoc data requests handled per week or month at Contoso Logistics"
+      }
+    ]
+  },
+  "scoresAfter": {
+    "ats": {
+      "score": 84,
+      "keywordPart": 67,
+      "formatPart": 100
+    },
+    "keywords": {
+      "score": 67,
+      "matched": 9,
+      "total": 15,
+      "byImportance": {
+        "must": {
+          "matched": 5,
+          "total": 5
+        },
+        "important": {
+          "matched": 1,
+          "total": 5
+        },
+        "nice": {
+          "matched": 3,
+          "total": 5
+        }
+      },
+      "matches": [
+        {
+          "term": "SQL",
+          "variants": [
+            "Structured Query Language",
+            "ANSI SQL"
+          ],
+          "category": "hard_skill",
+          "importance": "must",
+          "matched": true,
+          "matchedAs": "SQL"
+        },
+        {
+          "term": "Python",
+          "variants": [
+            "Python3",
+            "Py"
+          ],
+          "category": "hard_skill",
+          "importance": "must",
+          "matched": true,
+          "matchedAs": "Python"
+        },
+        {
+          "term": "Tableau",
+          "variants": [
+            "Tableau Desktop",
+            "Tableau Server"
+          ],
+          "category": "tool",
+          "importance": "must",
+          "matched": true,
+          "matchedAs": "Tableau"
+        },
+        {
+          "term": "Power BI",
+          "variants": [
+            "PowerBI",
+            "MS Power BI"
+          ],
+          "category": "tool",
+          "importance": "important",
+          "matched": false,
+          "matchedAs": null
+        },
+        {
+          "term": "A/B testing",
+          "variants": [
+            "A/B tests",
+            "split testing",
+            "hypothesis testing",
+            "experimentation"
+          ],
+          "category": "hard_skill",
+          "importance": "must",
+          "matched": true,
+          "matchedAs": "A/B testing"
+        },
+        {
+          "term": "pandas",
+          "variants": [
+            "Pandas library"
+          ],
+          "category": "tool",
+          "importance": "important",
+          "matched": false,
+          "matchedAs": null
+        },
+        {
+          "term": "scikit-learn",
+          "variants": [
+            "sklearn"
+          ],
+          "category": "tool",
+          "importance": "important",
+          "matched": false,
+          "matchedAs": null
+        },
+        {
+          "term": "Snowflake",
+          "variants": [
+            "Snowflake DW"
+          ],
+          "category": "tool",
+          "importance": "nice",
+          "matched": true,
+          "matchedAs": "Snowflake"
+        },
+        {
+          "term": "dbt",
+          "variants": [
+            "data build tool"
+          ],
+          "category": "tool",
+          "importance": "nice",
+          "matched": false,
+          "matchedAs": null
+        },
+        {
+          "term": "Airflow",
+          "variants": [
+            "Apache Airflow"
+          ],
+          "category": "tool",
+          "importance": "nice",
+          "matched": true,
+          "matchedAs": "Airflow"
+        },
+        {
+          "term": "Statistics",
+          "variants": [
+            "Statistical Analysis",
+            "Math"
+          ],
+          "category": "qualification",
+          "importance": "must",
+          "matched": true,
+          "matchedAs": "Statistics"
+        },
+        {
+          "term": "Forecasting",
+          "variants": [
+            "Predictive modeling",
+            "Time series forecasting"
+          ],
+          "category": "hard_skill",
+          "importance": "important",
+          "matched": false,
+          "matchedAs": null
+        },
+        {
+          "term": "Retail",
+          "variants": [
+            "E-commerce",
+            "Retail analytics"
+          ],
+          "category": "domain",
+          "importance": "nice",
+          "matched": true,
+          "matchedAs": "Retail"
+        },
+        {
+          "term": "Mentoring",
+          "variants": [
+            "Mentorship",
+            "Coaching",
+            "Leadership"
+          ],
+          "category": "soft_skill",
+          "importance": "nice",
+          "matched": false,
+          "matchedAs": null
+        },
+        {
+          "term": "Stakeholder presentation",
+          "variants": [
+            "Stakeholder communication",
+            "Data storytelling",
+            "Presenting findings"
+          ],
+          "category": "soft_skill",
+          "importance": "important",
+          "matched": true,
+          "matchedAs": "Stakeholder presentation"
+        }
+      ]
+    },
+    "checks": [
+      {
+        "id": "email",
+        "label": "Email address",
+        "status": "pass",
+        "detail": "Found an email address.",
+        "weight": 2
+      },
+      {
+        "id": "phone",
+        "label": "Phone number",
+        "status": "pass",
+        "detail": "Found a phone number.",
+        "weight": 1
+      },
+      {
+        "id": "linkedin",
+        "label": "LinkedIn profile",
+        "status": "pass",
+        "detail": "Found a LinkedIn URL.",
+        "weight": 0.5
+      },
+      {
+        "id": "sections",
+        "label": "Standard section headings",
+        "status": "pass",
+        "detail": "Found: summary, skills, experience, projects, education, certifications.",
+        "weight": 2
+      },
+      {
+        "id": "length",
+        "label": "Length",
+        "status": "pass",
+        "detail": "285 words.",
+        "weight": 1
+      },
+      {
+        "id": "metrics",
+        "label": "Quantified achievements",
+        "status": "pass",
+        "detail": "5 of 8 bullets include a number (63%). Aim for 40% or more.",
+        "weight": 1.5
+      },
+      {
+        "id": "verbs",
+        "label": "Bullets start with action verbs",
+        "status": "pass",
+        "detail": "7 of 8 bullets start with an action verb (88%).",
+        "weight": 1
+      },
+      {
+        "id": "pronouns",
+        "label": "No first-person pronouns",
+        "status": "pass",
+        "detail": "Bullets avoid \"I\", \"me\" and \"my\".",
+        "weight": 0.5
+      },
+      {
+        "id": "dates",
+        "label": "Consistent date format",
+        "status": "pass",
+        "detail": "Dates use one format.",
+        "weight": 0.5
+      },
+      {
+        "id": "columns",
+        "label": "Single-column layout",
+        "status": "pass",
+        "detail": "No side-by-side columns detected.",
+        "weight": 1
+      },
+      {
+        "id": "tables",
+        "label": "No tables",
+        "status": "pass",
+        "detail": "No tables found.",
+        "weight": 1
+      },
+      {
+        "id": "chars",
+        "label": "Readable characters",
+        "status": "pass",
+        "detail": "No icons or unreadable characters.",
+        "weight": 1
+      }
+    ],
+    "confidence": {
+      "score": 78,
+      "label": "High",
+      "parts": {
+        "keywords": 67,
+        "requirements": 83,
+        "fit": 85
+      },
+      "capped": false,
+      "blockers": []
+    }
+  },
+  "placeholdersFound": [
+    "[number]"
+  ],
+  "unconfirmed": [],
+  "changedNumbers": [],
+  "pdfInfo": {
+    "pages": 1,
+    "fontSize": 10.5,
+    "fits": true
+  },
+  "recheck": null,
+  "savedDir": null,
+  "saveCompany": "Lumen Analytics",
+  "saveRole": "Senior Data Analyst",
+  "stale": false
+}
